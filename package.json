@@ -6,8 +6,6 @@
     "start": "node app"
   },
   "dependencies": {
-    "express": ">=3.0.5",
-    "hbs": "*",
-    "less-middleware": "*"
+    "node-uuid":"1.4.0"
   }
 }
