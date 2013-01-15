@@ -1,6 +1,26 @@
 firestarter
 ===========
 
+## Installation
+
+	Command Shell:
+    npm install firestarter
+    
+    add a NON-PRIVILEGED USER called nodeserver (this user is switched to on execution)
+    
+    In app:
+    require fs=require('firestarter');
+    
+    When executing:
+    sudo node {app}
+    
+
+
+## ** NOTE - INSTALLING THIS DOES NOT REALLY DO ANYTHING (YET!) **
+The code is useful to see how to spawn, and communicate with child processes 
+
+## Description
+
 NodeJS client application spawner (with enhanced logging)
 
 Development project, designed for Linux distributions, that starts node projects (as a none privileged user [nodeserver], and using the [nogroup] group.
