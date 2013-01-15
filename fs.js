@@ -72,29 +72,34 @@ try {
 		console.error('###### Failed to set UID: ' + err + ' ######');
 		console.error('###### PROCESS COULD STILL BE RUNNING AS ROOT ######');
 		err = null;
+		throw new Error("Could not switch to low priority user");
 	}
 } catch (err) {
 	console.error('###### Failed to set GID: ' + err + ' ######');
 	console.error('###### PROCESS COULD STILL BE RUNNING AS ROOT ######');
 	err = null;
-	throw new Error("Could not switch to low priority user");
+	throw new Error("Could not switch to low(/no) priority group");
 }
 
-console.log("Starting TESTLOGGING Process as child");
+exports.run = function(fileName){
+	
+	console.log("Starting ["+fileName+"] Process as child");
 
-try {
-	for ( var startLoop = 0; startLoop < numCPUs; startLoop++) {
-		var id = '' + uuid.v4();
-		workers[id] = cp.fork('./testLogging', [
-				'worker=' + id, masterArgs
-		]);
+	try {
+		for ( var startLoop = 0; startLoop < numCPUs; startLoop++) {
+			var id = '' + uuid.v4();
+			workers[id] = cp.fork(fileName, [
+					'worker=' + id, masterArgs
+			]);
 
-		workers[id].on('message', workerListen);
+			workers[id].on('message', workerListen);
 
-		id = null;
-	}
-	startLoop = null;
-} catch (e) {
-	console.error('Exception starting workers: ' + e);
-	e = null;
-}
+			id = null;
+		}
+		startLoop = null;
+	} catch (e) {
+		console.error('Exception starting workers: ' + e);
+		e = null;
+		throw new Error("Could not start workers");
+	}	
+};
