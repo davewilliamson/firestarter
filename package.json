@@ -1,11 +1,36 @@
 {
-  "name": "application-name",
+  "name": "firestarter",
+  
+  "description": "Module to spawn applications as children of a master process",
+  
   "version": "0.0.1",
-  "private": true,
+  
+  "author": "davewilliamson",
+  
+  "homepage":"https://github.com/davewilliamson/firestarter",
+  
+  "bugs":"https://github.com/davewilliamson/firestarter/issues",
+  
+  "keywords": ["spawn", "child", "logging"],
+  
+  "private": false,
+  
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/davewilliamson/firestarter.git"
+  },
+  
   "scripts": {
     "start": "node app"
   },
+  
+  "engine": {
+    "node": ">=0.8.17"
+  },
+  
   "dependencies": {
     "node-uuid":"1.4.0"
-  }
+  },
+  
+  "main":"fs"
 }
