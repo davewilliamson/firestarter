@@ -3,7 +3,7 @@
   
   "description": "Module to spawn applications as children of a master process",
   
-  "version": "0.0.2",
+  "version": "0.0.3",
   
   "author": "davewilliamson",
   
