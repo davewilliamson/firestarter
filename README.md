@@ -10,3 +10,7 @@ This tool uses the spawn functionality (similar to cluster), allowing a process 
 Also included, and can be used stand-alone, is the setLoggin.js file, which updates the standard console.log() function(s) to provide more detail, and more control over logging levels.
 
 A work in progress ;-)
+
+### Contributors 
+
+Dave Williamson (davewilliamson)
