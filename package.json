@@ -7,13 +7,26 @@
   
   "author": "davewilliamson",
   
+  "contributors": [ 
+                   {
+                     "name": "Pedro Revington Garcia"
+                   } 
+                 ],
+  
   "homepage":"https://github.com/davewilliamson/firestarter",
+  
+  "keywords": [
+               "spawn",
+               "server"
+             ],
   
   "bugs":"https://github.com/davewilliamson/firestarter/issues",
   
   "keywords": ["spawn", "child", "logging"],
   
   "private": false,
+  
+  "license": "MIT",
   
   "repository": {
     "type": "git",
