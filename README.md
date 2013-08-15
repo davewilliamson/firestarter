@@ -7,7 +7,7 @@ Firestarter
 	npm install firestarter
 	
 	In app:
-	var firestarter=require('firestarter');
+	var firestarter=require('firestarter')({});
     
 
 
@@ -20,7 +20,7 @@ Firstly, it wraps your entire application in a Domain, and handles any errors fr
 
 The code is simple (this is pretty much your app.js):
 	
-	var firestarter = require('firestarter');
+	var firestarter = require('firestarter')();
 	
 	firestarter.startup(function(app, done){
 		// This is where you put all the app initialisation logic, e.g.
@@ -76,6 +76,22 @@ startup(fn, fn, fn) - gets passed at least one (init), and upto 3 callback funct
 	
 shutdown(err) - err is optional, this is the manual way to shutdown the application.
 
+There is also the initial require:
+
+	var firestarter=require('firestarter')({});
+	
+The object that can be passed at the end, is for configuration options:
+
+	var config = {
+		  shutdownTimeout : 300				// seconds, default to 5 mins
+		, startupTimeout : 300				// seconds, default to 5 mins
+		, express : require('express')			// You 'can' pass express if required(?)
+		, domain : require('domain')			// You 'can' pass domain if required(?)
+		, http : require('http')			// You 'can' pass http if required(?)
+		, app : require('express')()			// You 'can' pass your own app if required(?)
+	};
+
+In real terms, most of the use cases would not need to chance the defaults, so passing a null object would be normal.
 
 ## Under the covers
 Firestarter does a number of things
