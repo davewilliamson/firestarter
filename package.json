@@ -16,9 +16,6 @@
     "type": "git",
     "url": "http://github.com/davewilliamson/firestarter.git"
   },
-  "scripts": {
-    "start": "node lib/test"
-  },
   "engine": {
     "node": ">=0.10.0"
   },
