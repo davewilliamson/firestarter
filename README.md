@@ -4,61 +4,84 @@ Firestarter
 ## Installation
 
 	Command Shell:
-    npm install firestarter
-    
-    In app:
-    var firestarter=require('firestarter');
+	npm install firestarter
+	
+	In app:
+	var firestarter=require('firestarter');
     
 
 
-## A tool for express to start/stop your application **
+## A tool for express to start/stop your application
 Firestarter takes away the complexity of starting and stopping your application, it handles ALL errors (both thrown, and unexpected exceptions) with ease, allowing you to concentrate on writing your app.
 
-Firstly, it wraps your entire application in a Domain, and handles any errors from that domain, by cleanly shutting down the application - when combines with a tool such as naught, this will ensure that your app is as stable (from a user point of view) as it can possibly be.
+Firstly, it wraps your entire application in a Domain, and handles any errors from that domain, by cleanly shutting down the application - when combined with a tool such as naught, this will ensure that your app is as stable (from a user point of view) as it can possibly be.
 
-The code is simple:
-//
-var firestarter = require('firestarter');
+**NOTE** THIS MODULE REQUIRES THAT YOUR PROJECT IS USING EXPRESS
 
-firestarter.startup(function(app, done){
-	/* This is where you put all the app initialisation logic, e.g.
-
-	var data = db.createConnection(server); */
-
-	app.use(express.logger);
-	app.use(app.route);
-	app.use(function(err, req, res, next){
-		// DO SOMETHING - then end with....
-
-		firestarter.shutdown(err);
+The code is simple (this is pretty much your app.js):
+	
+	var firestarter = require('firestarter');
+	
+	firestarter.startup(function(app, done){
+		// This is where you put all the app initialisation logic, e.g.
+	
+		var data = db.createConnection(server);
+	
+		app.set('port', 3000);
+		app.set('version', 'v0.0.1');
+	
+		app.use(express.logger());
+		// etc....
+		
+		app.use(app.route);
+		app.use(function(err, req, res, next){
+			// DO SOMETHING - then end with....
+	
+			firestarter.shutdown(err);
+		});
+	
+		app.get('/', getTheHomePage);
+	
+		done();
+	
+	}, function(done){
+		// This is where you put your shutdown logic
+	
+		data.closeConnection();
+	
+		done();
+	
+	}, function(){
+		// This will be triggered when the server is listening and ready to serve data.
+		
 	});
 
-	donw();
-
-}, function(done){
-	/* This is where you put your shutdown logic
-
-	var data.closeConnection();  */
-
-	done();
-
-}, function(done){
-	/* This will be triggered when the server is listening and ready to serve data. */
 	
-});
-//
-## Description
+## More Info
 
-NodeJS client application spawner (with enhanced logging)
+The main 2 commands are:
 
-Development project, designed for Linux distributions, that starts node projects (as a none privileged user [nodeserver], and using the [nogroup] group.
+	startup(init, onShutdown, onReady)
+	
+	- and -
 
-This tool uses the spawn functionality (similar to cluster), allowing a process per cpu, and implements messaging to shutdown the client, and bring up a new client on death of the child.
+	shutdown(err)
+	
+startup(fn, fn, fn) - gets passed at least one (init), and upto 3 callback functions:
 
-Also included, and can be used stand-alone, is the setLoggin.js file, which updates the standard console.log() function(s) to provide more detail, and more control over logging levels.
+1. init - This is the code that used for setting up application (the normal app.use chain), it is passed a callback so when you have set everything up, you can carry on to start the application listening.  In the init function, you should initialise any datasources you app will use, and setup any load-time variables or configs.
+2. onShutdown - As the name suggests, this gets called if the app has to shutdown, it is called AFTER the server portion of the app has finished processing connections, and is passed a callback so you can confirm you have finish, and get the app terminated.
+3. onReady - When the app is up & listening, this will get called to let you know the app is up.
 
-A work in progress ;-)
+	
+shutdown(err) - err is optional, this is the manual way to shutdown the application.
 
-### Contributors 
 
-Dave Williamson (davewilliamson)
+## Under the covers
+Firestarter does a number of things
+
+1. It informs program monitors (such as naught) that it is online or offline, by sending them a process message.
+2. It monitors the server activity, on shutdown, to ensure all connections (where possible) are terminated before quitting.
+3. It monitors ALL parts of your application for errors and exceptions, and handles them by attempting a clean shutdown.
+
+	
