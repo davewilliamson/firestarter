@@ -1,49 +1,29 @@
 {
   "name": "firestarter",
-  
   "description": "Module to spawn applications as children of a master process",
-  
   "version": "0.0.3",
-  
   "author": "davewilliamson",
-  
-  "contributors": [ 
-                   {
-                     "name": "Pedro Revington Garcia"
-                   } 
-                 ],
-  
-  "homepage":"https://github.com/davewilliamson/firestarter",
-  
+  "homepage": "https://github.com/davewilliamson/firestarter",
   "keywords": [
-               "spawn",
-               "server"
-             ],
-  
-  "bugs":"https://github.com/davewilliamson/firestarter/issues",
-  
-  "keywords": ["spawn", "child", "logging"],
-  
+    "express",
+    "startup",
+    "errors"
+  ],
+  "bugs": "https://github.com/davewilliamson/firestarter/issues",
   "private": false,
-  
   "license": "MIT",
-  
   "repository": {
     "type": "git",
     "url": "http://github.com/davewilliamson/firestarter.git"
   },
-  
   "scripts": {
-    "start": "node app"
+    "start": "node lib/test"
   },
-  
   "engine": {
-    "node": ">=0.8.17"
+    "node": ">=0.10.0"
   },
-  
-  "dependencies": {
-    "node-uuid":"1.4.0"
-  },
-  
-  "main":"fs"
+  "main": "fs",
+  "devDependencies": {
+    "express": "~3.3.5"
+  }
 }

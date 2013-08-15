@@ -1,4 +1,4 @@
-firestarter
+Firestarter
 ===========
 
 ## Installation
@@ -6,18 +6,46 @@ firestarter
 	Command Shell:
     npm install firestarter
     
-    add a NON-PRIVILEGED USER called nodeserver (this user is switched to on execution)
-    
     In app:
-    require fs=require('firestarter');
-    
-    When executing:
-    sudo node {app}
+    var firestarter=require('firestarter');
     
 
 
-## ** NOTE - INSTALLING THIS DOES NOT REALLY DO ANYTHING (YET!) **
-The code is useful to see how to spawn, and communicate with child processes 
+## A tool for express to start/stop your application **
+Firestarter takes away the complexity of starting and stopping your application, it handles ALL errors (both thrown, and unexpected exceptions) with ease, allowing you to concentrate on writing your app.
+
+Firstly, it wraps your entire application in a Domain, and handles any errors from that domain, by cleanly shutting down the application - when combines with a tool such as naught, this will ensure that your app is as stable (from a user point of view) as it can possibly be.
+
+The code is simple:
+
+`var firestarter = require('firestarter');
+
+firestarter.startup(function(app, done){
+	// This is where you put all the app initialisation logic, e.g.
+
+	// var data = db.createConnection(server);
+
+	app.use(express.logger);
+	app.use(app.route);
+	app.use(function(err, req, res, next){
+		// DO SOMETHING - then end with....
+
+		firestarter.shutdown(err);
+	});
+
+	donw();
+
+}, function(done){
+	// This is where you put your shutdown logic
+
+	// var data.closeConnection();
+
+	done();
+
+}, function(done){
+	// This will be triggered when the server is listening and ready to serve data.
+	
+});`
 
 ## Description
 
