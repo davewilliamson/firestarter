@@ -1,9 +1,9 @@
 {
   "name": "firestarter",
   "description": "Module to spawn applications as children of a master process",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "author": "davewilliamson",
-  "homepage": "https://github.com/davewilliamson/firestarter",
+  "homepage": "http://davewilliamson.github.io/firestarter",
   "keywords": [
     "express",
     "startup",
