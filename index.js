@@ -64,9 +64,13 @@ module.exports = function(userConfig){
 		shutdown : function(err, msg){
 			'use strict';
 			if(err || !msg){
-				console.log('Shutting down due to error: '+err);
-				console.log(err.stack);
 				sendMessageFn('offline');
+				if(err){
+					console.error('Shutting down due to error: '+err);
+					console.error(err.stack);
+				} else {
+					console.error("Shutdown without an error???");
+				}
 			}
 			config.closing = true;
 
@@ -117,6 +121,7 @@ module.exports = function(userConfig){
 						req.connection.setTimeout(config.maxConnectionTime * 1000);
 						req.socket.setTimeout(config.maxSocketTime * 1000);
 					}
+					res.firestarter = fn;
 					next();
 				});
 				
@@ -166,6 +171,11 @@ module.exports = function(userConfig){
 	  , getServer : function(){
 			'use strict';
 			return config.server;
+		}
+
+	  , getHttp : function(){
+			'use strict';
+			return config.http;
 		}
 
 	  , getServerDomain : function(){

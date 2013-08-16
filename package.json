@@ -1,7 +1,7 @@
 {
   "name": "firestarter",
   "description": "Module to spawn applications as children of a master process",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "davewilliamson",
   "homepage": "http://davewilliamson.github.io/firestarter",
   "keywords": [
@@ -21,7 +21,7 @@
   },
   "main": "fs",
   "devDependencies": {
-    "express": "~3.3.5"
+    "express": ">=3.0.0"
   },
   "dependencies": {}
 }
