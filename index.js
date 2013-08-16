@@ -1,9 +1,13 @@
 module.exports = function(userConfig){
 	'use strict';
 
+	userConfig = userConfig || {};
+
 	var config = {
-		  shutdownTimeout : userConfig.shutdownTimeout || 30
-		, startupTimeout : userConfig.startupTimeout || 30
+		  shutdownTimeout : userConfig.shutdownTimeout || 300
+		, startupTimeout : userConfig.startupTimeout || 300
+		, maxConnectionTime : userConfig.maxConnectionTime || 30
+		, maxSocketTime : userConfig.maxSocketTime || 30
 		, express : userConfig.express || require('express')
 		, domain : userConfig.domain || require('domain')
 		, http : userConfig.http || require('http')
@@ -108,6 +112,10 @@ module.exports = function(userConfig){
 				config.app.use(function(req, res, next){
 					if(config.closing){
 						req.connection.setTimeout(1);
+						req.socket.setTimeout(1);
+					} else {
+						req.connection.setTimeout(config.maxConnectionTime * 1000);
+						req.socket.setTimeout(config.maxSocketTime * 1000);
 					}
 					next();
 				});
