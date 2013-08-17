@@ -1,12 +1,14 @@
 {
   "name": "firestarter",
-  "description": "Module to spawn applications as children of a master process",
-  "version": "0.1.3",
+  "description": "Module to safely and easily start and stop your express app",
+  "version": "0.1.5",
   "author": "davewilliamson",
   "homepage": "http://davewilliamson.github.io/firestarter",
   "keywords": [
     "express",
     "startup",
+    "shutdown",
+    "error handling",
     "errors"
   ],
   "bugs": "https://github.com/davewilliamson/firestarter/issues",
@@ -19,7 +21,7 @@
   "engine": {
     "node": ">=0.10.0"
   },
-  "main": "fs",
+  "main": "index",
   "devDependencies": {
     "express": ">=3.0.0"
   },
