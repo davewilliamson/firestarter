@@ -7,7 +7,7 @@ Firestarter
 	npm install firestarter
 	
 	In app:
-	var firestarter=require('firestarter')({});
+	var firestarter=require('firestarter')();
     
 
 
@@ -37,7 +37,7 @@ The code is simple (this is pretty much your app.js):
 		app.use(function(err, req, res, next){
 			// DO SOMETHING - then end with....
 	
-			firestarter.shutdown(err);
+			res.firestarter.shutdown(err);
 		});
 	
 		app.get('/', getTheHomePage);
