@@ -4,7 +4,7 @@
   <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Firestarter : NodeJS client application spawner (with enhanced logging)" />
+    <meta name="description" content="Firestarter : Taking away the complexity of starting and stopping your application" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -19,7 +19,7 @@
           <a id="forkme_banner" href="https://github.com/davewilliamson/firestarter">View on GitHub</a>
 
           <h1 id="project_title">Firestarter</h1>
-          <h2 id="project_tagline">NodeJS client application spawner (with enhanced logging)</h2>
+          <h2 id="project_tagline">Taking away the complexity of starting and stopping your application</h2>
 
             <section id="downloads">
               <a class="zip_download_link" href="https://github.com/davewilliamson/firestarter/zipball/master">Download this project as a .zip file</a>
@@ -31,41 +31,119 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h1>firestarter</h1>
+        <h1>
+<a name="firestarter" class="anchor" href="#firestarter"><span class="octicon octicon-link"></span></a>Firestarter</h1>
 
-<h2>Installation</h2>
+<p>This is a must-have module for anybody writing applications using express.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <pre><code>Command Shell:
 npm install firestarter
 
-add a NON-PRIVILEGED USER called nodeserver (this user is switched to on execution)
-
 In app:
-require fs=require('firestarter');
-
-When executing:
-sudo node {app}
+var firestarter=require('firestarter')();
 </code></pre>
 
-<h2>** NOTE - INSTALLING THIS DOES NOT REALLY DO ANYTHING (YET!) **</h2>
+<h3>
+<a name="a-tool-for-express-to-startstop-your-application" class="anchor" href="#a-tool-for-express-to-startstop-your-application"><span class="octicon octicon-link"></span></a>A tool for express to start/stop your application</h3>
 
-<p>The code is useful to see how to spawn, and communicate with child processes </p>
+<p>Firestarter takes away the complexity of starting and stopping your application, it handles ALL errors (both thrown, and unexpected exceptions) with ease, allowing you to concentrate on writing your app.</p>
 
-<h2>Description</h2>
+<p>Firstly, it wraps your entire application in a Domain, and handles any errors from that domain, by cleanly shutting down the application - when combined with a tool such as naught, this will ensure that your app is as stable (from a user point of view) as it can possibly be.</p>
 
-<p>NodeJS client application spawner (with enhanced logging)</p>
+<p><strong>NOTE</strong> THIS MODULE REQUIRES THAT YOUR PROJECT IS USING EXPRESS</p>
 
-<p>Development project, designed for Linux distributions, that starts node projects (as a none privileged user [nodeserver], and using the [nogroup] group.</p>
+<p>The code is simple (this is pretty much your app.js):</p>
 
-<p>This tool uses the spawn functionality (similar to cluster), allowing a process per cpu, and implements messaging to shutdown the client, and bring up a new client on death of the child.</p>
+<pre><code>var firestarter = require('firestarter')()
+  , db;
 
-<p>Also included, and can be used stand-alone, is the setLoggin.js file, which updates the standard console.log() function(s) to provide more detail, and more control over logging levels.</p>
+firestarter.startup(function(app, done){
+    // This is where you put all the app initialisation logic, e.g.
 
-<p>A work in progress ;-)</p>
+    var data = db.createConnection(server);
 
-<h3>Contributors</h3>
+    app.set('port', 3000);
+    app.set('version', 'v0.0.1');
 
-<p>Dave Williamson (davewilliamson)</p>
+    app.use(express.logger());
+    // etc....
+
+    app.use(app.route);
+    app.use(function(err, req, res, next){
+        // DO SOMETHING - then end with....
+
+        res.firestarter.shutdown(err);
+    });
+
+    app.get('/', getTheHomePage);
+
+    done();
+
+}, function(done){
+    // This is where you put your shutdown logic
+
+    data.closeConnection();
+
+    done();
+
+}, function(){
+    // This will be triggered when the server is listening and ready to serve data.
+
+});
+</code></pre>
+
+<hr><h3>
+<a name="more-info" class="anchor" href="#more-info"><span class="octicon octicon-link"></span></a>More Info</h3>
+
+<p>The main 2 commands are:</p>
+
+<pre><code>startup(init, onShutdown, onReady)
+
+- and -
+
+shutdown(err)
+</code></pre>
+
+<p>startup(fn, fn, fn) - gets passed at least one (init), and upto 3 callback functions:</p>
+
+<ol>
+<li><p>init - This is the code that used for setting up application (the normal app.use chain), it is passed a callback so when you have set everything up, you can carry on to start the application listening.  In the init function, you should initialise any datasources you app will use, and setup any load-time variables or configs.  </p></li>
+<li><p>onShutdown - As the name suggests, this gets called if the app has to shutdown, it is called AFTER the server portion of the app has finished processing connections, and is passed a callback so you can confirm you have finish, and get the app terminated.</p></li>
+<li><p>onReady - When the app is up &amp; listening, this will get called to let you know the app is up.</p></li>
+</ol><p>shutdown(err) - err is optional, this is the manual way to shutdown the application.</p>
+
+<p>There is also the initial require, that allows you to pass config options:</p>
+
+<pre><code>var firestarter=require('firestarter')({});
+</code></pre>
+
+<p>The object that can be passed at the end, is for configuration options:</p>
+
+<pre><code>var config = {
+      shutdownTimeout : 300             // seconds, default to 5 mins
+    , startupTimeout : 300              // seconds, default to 5 mins
+    , express : require('express')          // You 'can' pass express if required(?)
+    , domain : require('domain')            // You 'can' pass domain if required(?)
+    , http : require('http')            // You 'can' pass http if required(?)
+    , app : require('express')()            // You 'can' pass your own app if required(?)
+};
+</code></pre>
+
+<p>In real terms, most of the use cases would not need to chance the defaults, so passing a null object would be normal.</p>
+
+<hr><h3>
+<a name="under-the-covers" class="anchor" href="#under-the-covers"><span class="octicon octicon-link"></span></a>Under the covers</h3>
+
+<p>Firestarter does a number of things</p>
+
+<ul>
+<li><p>It informs program monitors (such as naught) that it is online or offline, by sending them a process message.</p></li>
+<li><p>It monitors the server activity, on shutdown, to ensure all connections (where possible) are terminated before quitting.</p></li>
+<li><p>It monitors ALL parts of your application for errors and exceptions, and handles them by attempting a clean shutdown.</p></li>
+</ul>
       </section>
     </div>
 
