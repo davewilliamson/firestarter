@@ -1,5 +1,7 @@
-Firestarter
-===========
+# Firestarter
+
+This is a must-have module for anybody writing applications using express.
+
 
 ## Installation
 
@@ -11,7 +13,7 @@ Firestarter
     
 
 
-## A tool for express to start/stop your application
+### A tool for express to start/stop your application
 Firestarter takes away the complexity of starting and stopping your application, it handles ALL errors (both thrown, and unexpected exceptions) with ease, allowing you to concentrate on writing your app.
 
 Firstly, it wraps your entire application in a Domain, and handles any errors from that domain, by cleanly shutting down the application - when combined with a tool such as naught, this will ensure that your app is as stable (from a user point of view) as it can possibly be.
@@ -20,7 +22,8 @@ Firstly, it wraps your entire application in a Domain, and handles any errors fr
 
 The code is simple (this is pretty much your app.js):
 	
-	var firestarter = require('firestarter')();
+	var firestarter = require('firestarter')()
+	  , db;
 	
 	firestarter.startup(function(app, done){
 		// This is where you put all the app initialisation logic, e.g.
@@ -56,8 +59,9 @@ The code is simple (this is pretty much your app.js):
 		
 	});
 
+---
 	
-## More Info
+### More Info
 
 The main 2 commands are:
 
@@ -69,14 +73,16 @@ The main 2 commands are:
 	
 startup(fn, fn, fn) - gets passed at least one (init), and upto 3 callback functions:
 
-1. init - This is the code that used for setting up application (the normal app.use chain), it is passed a callback so when you have set everything up, you can carry on to start the application listening.  In the init function, you should initialise any datasources you app will use, and setup any load-time variables or configs.
+1. init - This is the code that used for setting up application (the normal app.use chain), it is passed a callback so when you have set everything up, you can carry on to start the application listening.  In the init function, you should initialise any datasources you app will use, and setup any load-time variables or configs.  
+
 2. onShutdown - As the name suggests, this gets called if the app has to shutdown, it is called AFTER the server portion of the app has finished processing connections, and is passed a callback so you can confirm you have finish, and get the app terminated.
+  
 3. onReady - When the app is up & listening, this will get called to let you know the app is up.
 
 	
 shutdown(err) - err is optional, this is the manual way to shutdown the application.
 
-There is also the initial require:
+There is also the initial require, that allows you to pass config options:
 
 	var firestarter=require('firestarter')({});
 	
@@ -93,11 +99,15 @@ The object that can be passed at the end, is for configuration options:
 
 In real terms, most of the use cases would not need to chance the defaults, so passing a null object would be normal.
 
-## Under the covers
+---
+
+### Under the covers
 Firestarter does a number of things
 
-1. It informs program monitors (such as naught) that it is online or offline, by sending them a process message.
-2. It monitors the server activity, on shutdown, to ensure all connections (where possible) are terminated before quitting.
-3. It monitors ALL parts of your application for errors and exceptions, and handles them by attempting a clean shutdown.
+* It informs program monitors (such as naught) that it is online or offline, by sending them a process message.
+
+* It monitors the server activity, on shutdown, to ensure all connections (where possible) are terminated before quitting.
+
+* It monitors ALL parts of your application for errors and exceptions, and handles them by attempting a clean shutdown.
 
 	
