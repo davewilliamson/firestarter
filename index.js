@@ -14,48 +14,18 @@ module.exports = function(userConfig){
 
 	if(userConfig && userConfig.extendFirestarter) userConfig.extendFirestarter(_self.config);
 
-	var fn = {
-
-	  		config : _self.config
-
-	  	  , shutdown : _self.config.shutdown
-
-		  , startup : _self.config.startup
-			
-		  , getApp : function(){
-				
-				return _self.config.app;
-			}
-
-		  , getServer : function(){
-				
-				return _self.config.server;
-			}
-
-		  , getHttp : function(){
-				
-				return _self.config.http;
-			}
-
-		  , getServerDomain : function(){
-				
-				return _self.config.serverDomain;
-			}
-	  };
-
 	process.on('uncaughtException', function(err) {
-	    // handle the error safely
 	    _self.config.logger.info('Uncaught Exception: '+err);
 	    _self.config.logger.info(err.stack);
 	    _self.config.sendMessage('offline');
-		fn.shutdown(null, true);
+		_self.config.shutdown(null, true);
 	});
 
 	process.on('message', function(message) {
 		if (message === 'shutdown') {
 			_self.config.logger.info('Received shutdown message from process instanciator');
 			_self.config.sendMessage('offline');
-			fn.shutdown(null, true);
+			_self.config.shutdown(null, true);
 		}
 	});
 
@@ -63,7 +33,7 @@ module.exports = function(userConfig){
 		_self.config.logger.info('');
 		_self.config.logger.info('Received shutdown message from SIGINT (ctrl+c)');
 		_self.config.sendMessage('offline');
-		fn.shutdown(null, true);
+		_self.config.shutdown(null, true);
 	});
 	
 	if(!_self.config.serverDomain) _self.config.serverDomain = _self.config.domain.create();
@@ -72,8 +42,36 @@ module.exports = function(userConfig){
 		_self.config.sendMessage('offline');
 		_self.config.logger.info('Domain Error: '+err);
 	    _self.config.logger.info(err.stack);
-	    fn.shutdown(null, true);
+	    _self.config.shutdown(null, true);
 	});
 
-	return fn;
+
+	return {
+
+		config : _self.config
+
+	  , shutdown : _self.config.shutdown
+
+	  , startup : _self.config.startup
+		
+	  , getApp : function(){
+			
+			return _self.config.app;
+		}
+
+	  , getServer : function(){
+			
+			return _self.config.server;
+		}
+
+	  , getHttp : function(){
+			
+			return _self.config.http;
+		}
+
+	  , getServerDomain : function(){
+			
+			return _self.config.serverDomain;
+		}
+	};
 };
