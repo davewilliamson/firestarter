@@ -22,7 +22,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "buster test/buster.js"
+    "test": "buster-test"
   },
   "main": "index",
   "devDependencies": {
