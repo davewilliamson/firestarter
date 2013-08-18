@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/davewilliamson/firestarter.png?branch=master)](https://travis-ci.org/davewilliamson/firestarter)
+[![Dependency Status](https://www.versioneye.com/user/projects/520f9bd0632bac1d6e001837/badge.png)](https://www.versioneye.com/user/projects/520f9bd0632bac1d6e001837)
 # Firestarter
 
 This is a must-have module for anybody writing applications using express.
