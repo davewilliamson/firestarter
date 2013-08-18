@@ -7,6 +7,6 @@ buster.testCase('Test testing framework', {
 	'Test' : function(){
 		'use strict';
 		
-		assert(firestarter.config.testValue);
+		assert(!firestarter.config.testValue);
 	}
 });
