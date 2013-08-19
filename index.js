@@ -22,7 +22,9 @@ module.exports = function(userConfig){
 	});
 
 	process.on('message', function(message) {
-		if (message === 'shutdown') {
+		if (message === 'ping') {
+			_self.config.sendMessage('pong');
+		} else if (message === 'shutdown') {
 			_self.config.logger.info('Received shutdown message from process instanciator');
 			_self.config.sendMessage('offline');
 			_self.config.shutdown(null, true);
