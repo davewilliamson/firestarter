@@ -22,13 +22,13 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "buster-test"
+    "test": "buster-test",
+    "preinstall": "npm list buster -g || npm install buster -g"
+    "preinstall": "npm list jshint -g || npm install jshint -g"
   },
   "main": "index",
   "devDependencies": {
-    "express": ">=3.0.0",
-    "buster": "~0.6.12",
-    "jshint": "~2.1.10"
+    "express": ">=3.0.0"
   },
   "dependencies": {}
 }
