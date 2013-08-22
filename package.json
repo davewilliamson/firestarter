@@ -24,7 +24,7 @@
   "scripts": {
     "test": "buster-test",
     "preinstall": [
-      "npm install buster -g"
+      "npm install jslint buster -g"
       ]
   },
   "main": "index",
