@@ -16,7 +16,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "http://github.com/davewilliamson/firestarter.git"
+    "url": "git@github.com:davewilliamson/firestarter.git"
   },
   "engine": {
     "node": ">=0.10.0"
