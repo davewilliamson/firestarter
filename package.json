@@ -18,6 +18,12 @@
     "type": "git",
     "url": "git@github.com:davewilliamson/firestarter.git"
   },
+  "contributors": [
+    { "name" : "Dave Williamson",
+      "email" : "dave@ukit.net",
+      "url" : "http://github.com/davewilliamson"
+    }
+  ],
   "engine": {
     "node": ">=0.10.0"
   },
@@ -27,7 +33,7 @@
       "npm install jslint buster -g"
       ]
   },
-  "main": "index",
+  "main": "index.js",
   "devDependencies": {
     "express": ">=3.0.0"
   },
