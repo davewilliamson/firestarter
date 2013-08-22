@@ -1,10 +1,13 @@
 ![firestarter](https://f.cloud.github.com/assets/1398082/989783/6ba1d050-091b-11e3-827f-cd334a77ac6a.png)
+[![NPM](https://nodei.co/npm/firestarter.png?downloads=true&stars=true)](https://nodei.co/npm/firestarter/)
 
 [![Build Status](https://travis-ci.org/davewilliamson/firestarter.png?branch=master)](https://travis-ci.org/davewilliamson/firestarter)
 [![Dependency Status](https://www.versioneye.com/user/projects/520f9bd0632bac1d6e001837/badge.png)](https://www.versioneye.com/user/projects/520f9bd0632bac1d6e001837)
 [![NPM version](https://badge.fury.io/js/firestarter.png)](http://badge.fury.io/js/firestarter)
 
 This is a must-have module for anybody writing applications using express.
+
+Firestarter has been tested on a web site that receives over 8 million page requests per day, and has proved to be VERY stable!  It has reduced down time, memory leaks, and end user disconnects.
 
 
 ## Installation
