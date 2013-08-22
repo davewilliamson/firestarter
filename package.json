@@ -23,7 +23,7 @@
   },
   "scripts": {
     "test": "buster-test",
-    "preinstall": "npm list buster -g || npm install buster -g"
+    "preinstall": "npm list buster -g || npm install buster -g",
     "preinstall": "npm list jshint -g || npm install jshint -g"
   },
   "main": "index",
