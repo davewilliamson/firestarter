@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/davewilliamson/firestarter.png?label=ready)](https://waffle.io/davewilliamson/firestarter)  
 ![firestarter](https://f.cloud.github.com/assets/1398082/989783/6ba1d050-091b-11e3-827f-cd334a77ac6a.png)
 
 [![Stories in Ready](https://badge.waffle.io/davewilliamson/firestarter.png)](http://waffle.io/davewilliamson/firestarter)
