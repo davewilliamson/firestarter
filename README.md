@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/davewilliamson/firestarter.png?label=ready)](https://waffle.io/davewilliamson/firestarter)  
 ![firestarter](https://f.cloud.github.com/assets/1398082/989783/6ba1d050-091b-11e3-827f-cd334a77ac6a.png)
 [![NPM](https://nodei.co/npm/firestarter.png?downloads=true&stars=true)](https://nodei.co/npm/firestarter/)
 
