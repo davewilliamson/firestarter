@@ -22,14 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-var configTool = require('./lib/config');
+var configTool = require('./lib/configTool');
 
 module.exports = function(userConfig) {
     'use strict';
 
     var _self = this || {};
 
-    _self.config = new configTool.setup(userConfig);
+    _self.config = new configTool(userConfig);
+
+    _self.config.logger.info('Lighting the Firestarter!');
 
     _self.config.gracefulExit = _self.config.gracefulExit || new require('./lib/gracefulexit')(_self.config);
     _self.config.sendMessage = _self.config.sendMessage || new require('./lib/sendmessage')(_self.config);
@@ -45,19 +47,20 @@ module.exports = function(userConfig) {
         _self.config.shutdown(null, true);
     });
 
+    process.on('SIGINT', function() {
+        _self.config.logger.info('');
+        _self.config.logger.info('Received shutdown message from SIGINT (ctrl+c)');
+        _self.config.sendMessage('offline');
+        _self.config.shutdown(null, true);
+    });
+
     process.on('message', function(message) {
         if (message === 'ping') {
             _self.config.sendMessage('pong');
         } else if (message === 'shutdown') {
             _self.config.logger.info('Received shutdown message from process instanciator');
             _self.config.sendMessage('offline');
-            _self.config.shutdown(null, true);
-            process.on('SIGINT', function() {
-                _self.config.logger.info('');
-                _self.config.logger.info('Received shutdown message from SIGINT (ctrl+c)');
-                _self.config.sendMessage('offline');
-                _self.config.shutdown(null, true);
-            });
+            _self.config.shutdown(null, true);            
         }
     });
 
