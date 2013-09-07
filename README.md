@@ -1,9 +1,12 @@
 ![firestarter](https://f.cloud.github.com/assets/1398082/989783/6ba1d050-091b-11e3-827f-cd334a77ac6a.png)
-[![NPM](https://nodei.co/npm/firestarter.png?downloads=true&stars=true)](https://nodei.co/npm/firestarter/)
 
+[![Stories in Ready](https://badge.waffle.io/davewilliamson/firestarter.png)](http://waffle.io/davewilliamson/firestarter)
 [![Build Status](https://travis-ci.org/davewilliamson/firestarter.png?branch=master)](https://travis-ci.org/davewilliamson/firestarter)
 [![Dependency Status](https://www.versioneye.com/user/projects/520f9bd0632bac1d6e001837/badge.png)](https://www.versioneye.com/user/projects/520f9bd0632bac1d6e001837)
 [![NPM version](https://badge.fury.io/js/firestarter.png)](http://badge.fury.io/js/firestarter)
+[![endorse](https://api.coderwall.com/davewilliamson/endorsecount.png)](https://coderwall.com/davewilliamson)
+
+[![NPM](https://nodei.co/npm/firestarter.png?downloads=true&stars=true)](https://nodei.co/npm/firestarter/)
 
 This is a must-have module for anybody writing applications using express.
 
