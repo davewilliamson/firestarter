@@ -1,12 +1,13 @@
-var buster = require("buster");
+var buster = require('buster');
 
 var firestarter = require('../')();
 
 buster.testCase('Test testing framework', {
 
-	'Test' : function(){
-		'use strict';
-		
-		assert(firestarter.config.testValue);
-	}
+    'Test': function() {
+        'use strict';
+
+
+        assert(firestarter.config.testValue);
+    }
 });
