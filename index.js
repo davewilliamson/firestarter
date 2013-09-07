@@ -27,16 +27,16 @@ module.exports = function(userConfig){
 		} else if (message === 'shutdown') {
 			_self.config.logger.info('Received shutdown message from process instanciator');
 			_self.config.sendMessage('offline');
-			_self.config.shutdown(null, true);
-		}
-	});
-
-	process.on('SIGINT', function() {
+			_self.config.shutdown(null, true);process.on('SIGINT', function() {
 		_self.config.logger.info('');
 		_self.config.logger.info('Received shutdown message from SIGINT (ctrl+c)');
 		_self.config.sendMessage('offline');
 		_self.config.shutdown(null, true);
 	});
+		}
+	});
+
+	
 	
 	if(!_self.config.serverDomain) _self.config.serverDomain = _self.config.domain.create();
 
