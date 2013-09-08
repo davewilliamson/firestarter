@@ -31,7 +31,7 @@ module.exports = function(userConfig) {
 
     _self.config = new configTool(userConfig);
 
-    _self.config.logger.info('Lighting the Firestarter!');
+    _self.config.logger.info('Igniting the Firestarter!');
 
     _self.config.gracefulExit = _self.config.gracefulExit || new require('./lib/gracefulexit')(_self.config);
     _self.config.sendMessage = _self.config.sendMessage || new require('./lib/sendmessage')(_self.config);
@@ -60,7 +60,7 @@ module.exports = function(userConfig) {
         } else if (message === 'shutdown') {
             _self.config.logger.info('Received shutdown message from process instanciator');
             _self.config.sendMessage('offline');
-            _self.config.shutdown(null, true);            
+            _self.config.shutdown(null, true);
         }
     });
 
