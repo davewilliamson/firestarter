@@ -29,7 +29,25 @@ Firestarter takes away the complexity of starting and stopping your application,
 
 Firstly, it wraps your entire application in a Domain, and handles any errors from that domain, by cleanly shutting down the application - when combined with a tool such as naught, this will ensure that your app is as stable (from a user point of view) as it can possibly be.
 
-**NOTE** THIS MODULE REQUIRES THAT YOUR PROJECT IS USING EXPRESS
+**NOTE** THIS MODULE REQUIRES THAT YOUR PROJECT IS USING EXPRESS.  Have just added support for SPDY as well, it's in and working but need to update documention yet (Sorry!) simply pass the SPDY config in the init:
+
+	var firestarter = require('firestarter')({
+		spdyEnabled: true,
+            	spdyOptions:{
+	                key: fs.readFileSync(__dirname + '/keys/server.key'),
+	                cert: fs.readFileSync(__dirname + '/keys/server.crt'),
+	                ca: fs.readFileSync(__dirname + '/keys/server.csr'),
+	
+	                // SPDY-specific options
+	                windowSize: 1024, // Server's window size
+	                plain: false,
+	                ssl: true
+	        }
+            })
+            
+	and set 
+	
+	app.set('spdyPort', 433);
 
 The code is simple (this is pretty much your app.js):
 	
