@@ -5,6 +5,7 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/520f9bd0632bac1d6e001837/badge.png)](https://www.versioneye.com/user/projects/520f9bd0632bac1d6e001837)
 [![NPM version](https://badge.fury.io/js/firestarter.png)](http://badge.fury.io/js/firestarter)
 [![endorse](https://api.coderwall.com/davewilliamson/endorsecount.png)](https://coderwall.com/davewilliamson)
+[![Code Climate](https://codeclimate.com/github/davewilliamson/firestarter.png)](https://codeclimate.com/github/davewilliamson/firestarter)
 
 [![NPM](https://nodei.co/npm/firestarter.png?downloads=true&stars=true)](https://nodei.co/npm/firestarter/)
 
