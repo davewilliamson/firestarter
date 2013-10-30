@@ -1,46 +1,49 @@
 {
-    "name": "firestarter",
-    "description": "Module to safely and easily start and stop your express app",
-    "version": "0.1.12",
-    "author": "davewilliamson",
-    "homepage": "http://firestarter.ukit.net",
-    "keywords": [
-        "express",
-        "startup",
-        "shutdown",
-        "error handling",
-        "errors",
-        "SPDY"
-    ],
-    "bugs": "https://github.com/davewilliamson/firestarter/issues",
-    "private": false,
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:davewilliamson/firestarter.git"
-    },
-    "contributors": [{
-        "name": "Dave Williamson",
-        "email": "dave@ukit.net",
-        "url": "http://github.com/davewilliamson"
-    }],
-    "engine": {
-        "node": ">=0.10.0"
-    },
-    "scripts": {
-        "test": "buster-test",
-        "preinstall": [
-            "npm install jslint buster -g"
-        ]
-    },
-    "main": "index.js",
-    "devDependencies": {
-        "express": ">=3.0.0",
-        "buster": "~0.6.12",
-        "jshint": "~2.1.10",
-        "spdy": "~1.10.8"
-    },
-    "dependencies": {
-
+  "name": "firestarter",
+  "description": "Module to safely and easily start and stop your express app",
+  "version": "0.1.13",
+  "author": "davewilliamson",
+  "homepage": "http://firestarter.ukit.net",
+  "keywords": [
+    "express",
+    "startup",
+    "shutdown",
+    "error handling",
+    "errors",
+    "SPDY"
+  ],
+  "bugs": "https://github.com/davewilliamson/firestarter/issues",
+  "private": false,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:davewilliamson/firestarter.git"
+  },
+  "contributors": [
+    {
+      "name": "Dave Williamson",
+      "email": "dave@ukit.net",
+      "url": "http://github.com/davewilliamson"
     }
+  ],
+  "engine": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "buster-test",
+    "preinstall": [
+      "npm install jslint buster -g"
+    ]
+  },
+  "main": "index.js",
+  "devDependencies": {
+    "express": ">=3.0.0",
+    "buster": "*",
+    "jshint": "*",
+    "spdy": "*"
+  },
+  "dependencies": {
+    "colors": ">=0.6.2",
+    "memwatch": "~0.2.2"
+  }
 }
