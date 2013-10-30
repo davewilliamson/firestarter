@@ -23,6 +23,7 @@ THE SOFTWARE.
 */
 /*jshint unused:false */
 var noLog = function() {},
+
     consoleLog = {
         debug: console.log,
         info: console.log,
@@ -37,6 +38,10 @@ var noLog = function() {},
     },
 
     me = module.exports = {
+        memwatch: {
+            enabled: true,
+            gcStats: false
+        },
         shutdownTimeout: 300,
         startupTimeout: 300,
         maxConnectionTime: 30,

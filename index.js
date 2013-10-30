@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+var colors = require('colors');
+
 var configTool = require('./lib/configTool');
 
 module.exports = function(userConfig) {
@@ -31,12 +33,27 @@ module.exports = function(userConfig) {
 
     _self.config = new configTool(userConfig);
 
-    _self.config.logger.info('Igniting the Firestarter!');
+    _self.config.logger.info('Igniting the Firestarter!'.inverse.underline.yellow);
+
+
+    if(_self.config.memwatch && _self.config.memwatch.enabled){
+        _self.config.logger.info('Memwatch Enabled (https://github.com/lloyd/node-memwatch)'.yellow);        
+        _self.config.memwatch.fn = require('memwatch');
+        _self.config.memwatch.fn.on('leak', function(info){
+            _self.config.logger.warn(('Possible Memory Leak: '+info.reason).bold.red);
+        });
+        if(_self.config.memwatch.gcStats){
+            _self.config.memwatch.fn.on('stats', function(stats){
+                _self.config.logger.warn(('V8 Garbage Collection: '+require('util').inspect(stats,{colors: true, showHidden: true})));
+            });
+        }
+    }
 
     _self.config.gracefulExit = _self.config.gracefulExit || new require('./lib/gracefulexit')(_self.config);
     _self.config.sendMessage = _self.config.sendMessage || new require('./lib/sendmessage')(_self.config);
     _self.config.startup = _self.config.startup || new require('./lib/startup')(_self.config);
     _self.config.shutdown = _self.config.shutdown || new require('./lib/shutdown')(_self.config);
+    _self.config.eventedStartup = _self.config.eventedStartup || new require('./lib/eventedStartup')(_self.config);
 
     if (userConfig && userConfig.extendFirestarter) userConfig.extendFirestarter(_self.config);
 
@@ -54,11 +71,18 @@ module.exports = function(userConfig) {
         _self.config.shutdown(null, true);
     });
 
+    process.on('SIGHUP', function() {
+        _self.config.logger.info('');
+        _self.config.logger.info('Received shutdown message from SIGHUP');
+        _self.config.sendMessage('offline');
+        _self.config.shutdown(null, true);
+    });
+
     process.on('message', function(message) {
         if (message === 'ping') {
             _self.config.sendMessage('pong');
         } else if (message === 'shutdown') {
-            _self.config.logger.info('Received shutdown message from process instanciator');
+            _self.config.logger.info('Received shutdown message from process instantiator');
             _self.config.sendMessage('offline');
             _self.config.shutdown(null, true);
         }
@@ -67,10 +91,7 @@ module.exports = function(userConfig) {
     if (!_self.config.serverDomain) _self.config.serverDomain = _self.config.domain.create();
 
     _self.config.serverDomain.on('error', function(err) {
-        _self.config.sendMessage('offline');
-        _self.config.logger.info('Domain Error: ' + err);
-        _self.config.logger.info(err.stack);
-        _self.config.shutdown(null, true);
+        _self.config.shutdown(err, true);
     });
 
     return {
@@ -80,6 +101,8 @@ module.exports = function(userConfig) {
         shutdown: _self.config.shutdown,
 
         startup: _self.config.startup,
+
+        eventedStartup: _self.config.eventedStartup,
 
         getApp: function() {
 
