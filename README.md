@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.org/davewilliamson/firestarter.png?branch=master)](https://travis-ci.org/davewilliamson/firestarter)
 [![Dependency Status](https://www.versioneye.com/user/projects/520f9bd0632bac1d6e001837/badge.png)](https://www.versioneye.com/user/projects/520f9bd0632bac1d6e001837)
 [![NPM version](https://badge.fury.io/js/firestarter.png)](http://badge.fury.io/js/firestarter)
+[![Coverage Status](https://coveralls.io/repos/davewilliamson/firestarter/badge.png)](https://coveralls.io/r/davewilliamson/firestarter)
 [![Code Climate](https://codeclimate.com/repos/5270d2d9c7f3a33559029cdf/badges/391d2e1b905636e24de5/gpa.png)](https://codeclimate.com/repos/5270d2d9c7f3a33559029cdf/feed)
 [![endorse](https://api.coderwall.com/davewilliamson/endorsecount.png)](https://coderwall.com/davewilliamson)
 
