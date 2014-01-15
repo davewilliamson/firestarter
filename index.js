@@ -26,6 +26,7 @@ var colors = require('colors');
 
 var configTool = require('./lib/configTool');
 
+
 module.exports = function(userConfig) {
     'use strict';
 
@@ -116,7 +117,7 @@ module.exports = function(userConfig) {
 
         getSpdyServer: function() {
 
-            return _self.config.spdy;
+            return _self.config.spdyServer;
         },
 
         getHttp: function() {

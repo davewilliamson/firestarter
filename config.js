@@ -39,29 +39,23 @@ var noLog = function() {},
 
     me = module.exports = {
         memwatch: {
-            enabled: true,
+            enabled: false,
             gcStats: false
         },
-        shutdownTimeout: 300,
-        startupTimeout: 300,
-        maxConnectionTime: 30,
-        maxSocketTime: 30,
-        error: noLog,
+        shutdownTimeout: 60,
+        startupTimeout: 60,
+        maxConnectionTime: 15,
+        maxSocketTime: 15,
+        error: consoleLog,
         express: require('express'),
         domain: require('domain'),
         http: require('http'),
         app: require('express')(),
-        server: {
-            close: function(cb) {
-                'use strict';
-
-                if (me.config.logging) me.config.logger.warn('USING STUB FUNCTION TO SHUT DOWN SERVER - There is a problem!');
-                if (cb) cb(false);
-            }
-        },
+        server: null,
         spdyEnabled: false,
         spdy: null,
         spdyOptions: null,
+        spdyServer: null,
         shutdownFunction: null,
         serverDomain: null,
         closing: false,
