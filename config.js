@@ -38,6 +38,11 @@ var noLog = function() {},
     },
 
     me = module.exports = {
+        exUser:{
+            switchOnReady: 'false',
+            targetUser: 'nodejs',
+            targetGroup: 'nodejs'
+        },
         memwatch: {
             enabled: false,
             gcStats: false
