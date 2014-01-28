@@ -37,36 +37,40 @@ var noLog = function() {},
         warn: noLog,
     },
 
-    me = module.exports = {
-        exUser:{
-            switchOnReady: 'false',
-            targetUser: 'nodejs',
-            targetGroup: 'nodejs'
-        },
-        memwatch: {
-            enabled: false,
-            gcStats: false
-        },
-        shutdownTimeout: 60,
-        startupTimeout: 60,
-        maxConnectionTime: 15,
-        maxSocketTime: 15,
-        error: consoleLog,
-        express: require('express'),
-        domain: require('domain'),
-        http: require('http'),
-        app: require('express')(),
-        server: null,
-        spdyEnabled: false,
-        spdy: null,
-        spdyOptions: null,
-        spdyServer: null,
-        shutdownFunction: null,
-        serverDomain: null,
-        closing: false,
-        logger: consoleLog,
-        gracefulExit: null,
-        logging: true,
-        testValue: true,
-        name: 'FireStarter'
+    me = module.exports = function() {
+        'use strict';
+
+        return {
+            exUser: {
+                switchOnReady: 'false',
+                targetUser: 'nodejs',
+                targetGroup: 'nodejs'
+            },
+            memwatch: {
+                enabled: false,
+                gcStats: false
+            },
+            shutdownTimeout: 60,
+            startupTimeout: 60,
+            maxConnectionTime: 15,
+            maxSocketTime: 15,
+            error: consoleLog,
+            express: require('express'),
+            domain: require('domain'),
+            http: require('http'),
+            app: require('express')(),
+            server: null,
+            spdyEnabled: false,
+            spdy: null,
+            spdyOptions: null,
+            spdyServer: null,
+            shutdownFunction: null,
+            serverDomain: null,
+            closing: false,
+            logger: consoleLog,
+            gracefulExit: null,
+            logging: true,
+            testValue: true,
+            name: 'FireStarter'
+        };
     };
