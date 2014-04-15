@@ -42,7 +42,7 @@ var noLog = function() {},
 
         return {
             exUser: {
-                switchOnReady: 'false',
+                switchOnReady: false,
                 targetUser: 'nodejs',
                 targetGroup: 'nodejs'
             },
