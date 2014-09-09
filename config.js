@@ -1,3 +1,5 @@
+'use strict';
+
 /*
 Copyright (c) 2013 
 
@@ -38,7 +40,6 @@ var noLog = function() {},
     },
 
     me = module.exports = function() {
-        'use strict';
 
         return {
             exUser: {

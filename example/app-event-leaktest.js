@@ -1,10 +1,11 @@
+'use strict';
+
 var firestarter = require('../')(),
     express = require('express');
 
 var firestarterAppControl = firestarter.eventedStartup();
 
 firestarterAppControl.once('startup', function(app, done) {
-    'use strict';
 
     console.log('Startup 1 - 5 second wait');
 
@@ -29,62 +30,57 @@ firestarterAppControl.once('startup', function(app, done) {
         app.use(express.errorHandler());
     });
 
-    setTimeout(function(){
-        done();    
+    setTimeout(function() {
+        done();
     }, 5000);
 
 });
 
 firestarterAppControl.once('startup', function(app, done) {
-    'use strict';
 
     console.log('Startup 2');
-    
+
     done();
 });
 
 firestarterAppControl.once('shutdown', function(done) {
-    'use strict';
 
     console.log('Shutdown 1 requested! - Waiting 5 seconds');
-   
-    setTimeout(function(){
-        done();    
+
+    setTimeout(function() {
+        done();
     }, 5000);
 
-    
+
 });
 
 firestarterAppControl.once('shutdown', function(done) {
-    'use strict';
 
     console.log('Shutdown 2 requested!');
-   
+
     done();
 });
 
 firestarterAppControl.once('ready', function() {
-    'use strict';
 
-    console.log('Ready 1 - Service will shutdown after 50 seconds....')
+    console.log('Ready 1 - Service will shutdown after 50 seconds....');
 
-    setTimeout(function(){
-        
+    setTimeout(function() {
+
         firestarter.shutdown();
 
     }, 50000);
 });
 
 firestarterAppControl.once('ready', function() {
-    'use strict';
 
     console.log('Ready 2');
 
-    var LeakingClass = function() { };
+    var LeakingClass = function() {};
 
     var arr = [];
 
-    for (var i = 0; i < 100000; i++) arr.push(new LeakingClass);
+    for (var i = 0; i < 100000; i++) arr.push(new LeakingClass());
 
 
 });

@@ -1,8 +1,10 @@
+'use strict';
+
 var firestarter = require('../')(),
     express = require('express');
 
 firestarter.startup(function(app, done) {
-    'use strict';
+
 
     module.exports = app;
 
@@ -28,20 +30,18 @@ firestarter.startup(function(app, done) {
     done();
 
 }, function(done) {
-    'use strict';
 
     console.log('Shutdown requested!');
-    
+
     done();
 
 
 }, function() {
-    'use strict';
 
-    console.log('Service will throw an error after 5 seconds....')
+    console.log('Service will throw an error after 5 seconds....');
 
-    setTimeout(function(){
-        
+    setTimeout(function() {
+
         throw new Error('This would normally stop the app shutting down "nicely"');
 
     }, 5000);

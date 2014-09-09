@@ -1,3 +1,5 @@
+'use strict';
+
 /*
 Copyright (c) 2013 
 
@@ -22,13 +24,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-var colors = require('colors');
-
 var configTool = require('./lib/configTool');
 
+require('colors');
 
 module.exports = function(userConfig) {
-    'use strict';
 
     var _self = this || {};
 
@@ -37,15 +37,18 @@ module.exports = function(userConfig) {
     _self.config.logger.info('Igniting the Firestarter!'.inverse.underline.yellow);
 
 
-    if(_self.config.memwatch && _self.config.memwatch.enabled){
-        _self.config.logger.info('Memwatch Enabled (https://github.com/lloyd/node-memwatch)'.yellow);        
+    if (_self.config.memwatch && _self.config.memwatch.enabled) {
+        _self.config.logger.info('Memwatch Enabled (https://github.com/lloyd/node-memwatch)'.yellow);
         _self.config.memwatch.fn = require('memwatch');
-        _self.config.memwatch.fn.on('leak', function(info){
-            _self.config.logger.warn(('Possible Memory Leak: '+info.reason).bold.red);
+        _self.config.memwatch.fn.on('leak', function(info) {
+            _self.config.logger.warn(('Possible Memory Leak: ' + info.reason).bold.red);
         });
-        if(_self.config.memwatch.gcStats){
-            _self.config.memwatch.fn.on('stats', function(stats){
-                _self.config.logger.warn(('V8 Garbage Collection: '+require('util').inspect(stats,{colors: true, showHidden: true})));
+        if (_self.config.memwatch.gcStats) {
+            _self.config.memwatch.fn.on('stats', function(stats) {
+                _self.config.logger.warn(('V8 Garbage Collection: ' + require('util').inspect(stats, {
+                    colors: true,
+                    showHidden: true
+                })));
             });
         }
     }
