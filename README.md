@@ -9,7 +9,7 @@
 [![endorse](https://api.coderwall.com/davewilliamson/endorsecount.png)](https://coderwall.com/davewilliamson)
 
 
-[![NPM](https://nodei.co/npm/firestarter.png?downloads=true&stars=true)](https://nodei.co/npm/firestarter/)
+[![NPM](https://nodei.co/npm/firestarter.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/firestarter/)
 
 This is a must-have module for anybody writing applications using express.
 
