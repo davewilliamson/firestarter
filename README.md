@@ -142,3 +142,8 @@ Firestarter does a number of things
 * It monitors ALL parts of your application for errors and exceptions, and handles them by attempting a clean shutdown.
 
 	
+---
+#Want to say thank you?  A bit coin donation is always welcome ;-)
+
+[![Bitcoin](http://www.painlessmining.com/images/bitcoinqr.png)](bitcoin:13Dbii2cUAt6h47BxkytXAbE6SC1fMS7PP)
+[13Dbii2cUAt6h47BxkytXAbE6SC1fMS7PP](bitcoin://13Dbii2cUAt6h47BxkytXAbE6SC1fMS7PP)
