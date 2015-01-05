@@ -1,7 +1,7 @@
 {
   "name": "firestarter",
   "description": "Module to safely and easily start and stop your express app",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "author": "davewilliamson",
   "homepage": "http://firestarter.ukit.net",
   "keywords": [
@@ -42,9 +42,9 @@
     "jshint": "latest"
   },
   "dependencies": {
-    "colors": "^0.6.2",
+    "colors": "latest",
     "memwatch": "latest",
-    "proxywrap": "^0.2.0",
+    "proxywrap": "latest",
     "spdy": "latest"
   }
 }
