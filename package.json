@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "colors": "latest",
-    "memwatch": "latest",
+    "memwatch": "file:../../../tmp/npm-7716-e4ca7c64/git-cache-4698fe329704/708c3cf4d5b9b33b87f5c5b61167e5f57ca8f2bf",
     "proxywrap": "latest",
     "spdy": "latest"
   }
