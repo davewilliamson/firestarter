@@ -1,7 +1,7 @@
 {
   "name": "firestarter",
   "description": "Module to safely and easily start and stop your express app",
-  "version": "0.1.25",
+  "version": "0.1.26",
   "author": "davewilliamson",
   "homepage": "http://firestarter.ukit.net",
   "keywords": [
@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "colors": "latest",
-    "memwatch": "file:../../../tmp/npm-7716-e4ca7c64/git-cache-4698fe329704/708c3cf4d5b9b33b87f5c5b61167e5f57ca8f2bf",
+    "memwatch": "git+https://github.com/ukit-network/node-memwatch.git",
     "proxywrap": "latest",
     "spdy": "latest"
   }
