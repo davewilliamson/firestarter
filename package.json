@@ -38,13 +38,13 @@
   "main": "index.js",
   "devDependencies": {
     "express": "~3.17.1",
-    "buster": "latest",
-    "jshint": "latest"
+    "buster": "stable",
+    "jshint": "stable"
   },
   "dependencies": {
-    "colors": "latest",
+    "colors": "stable",
     "memwatch": "git+https://github.com/ukit-network/node-memwatch.git",
-    "proxywrap": "latest",
-    "spdy": "latest"
+    "proxywrap": "stable",
+    "spdy": "stable"
   }
 }
