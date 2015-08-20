@@ -45,6 +45,6 @@
     "colors": "latest",
     "findhit-proxywrap": "^0.3.10",
     "memwatch-next": "^0.2.7",
-    "spdy": "1.32.0"
+    "spdy": "^2.0.4"
   }
 }
