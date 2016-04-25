@@ -43,8 +43,8 @@
   },
   "dependencies": {
     "colors": "latest",
-    "memwatch": "git+https://github.com/ukit-network/node-memwatch.git",
-    "proxywrap": "latest",
-    "spdy": "1.32.0"
+    "findhit-proxywrap": "^0.3.10",
+    "memwatch-next": "^0.2.7",
+    "spdy": "^2.0.4"
   }
 }

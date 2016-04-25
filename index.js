@@ -38,8 +38,8 @@ module.exports = function(userConfig) {
 
 
     if (_self.config.memwatch && _self.config.memwatch.enabled) {
-        _self.config.logger.info('Memwatch Enabled (https://github.com/lloyd/node-memwatch)'.yellow);
-        _self.config.memwatch.fn = require('memwatch');
+        _self.config.logger.info('Memwatch Enabled (https://www.npmjs.com/package/memwatch-next)'.yellow);
+        _self.config.memwatch.fn = require('memwatch-next');
         _self.config.memwatch.fn.on('leak', function(info) {
             _self.config.logger.warn(('Possible Memory Leak: ' + info.reason).bold.red);
         });
