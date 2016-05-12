@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "colors": "latest",
+    "graceful-fs": "^4.1.4",
     "memwatch": "git+https://github.com/ukit-network/node-memwatch.git",
     "proxywrap": "latest",
     "spdy": "1.32.0"
