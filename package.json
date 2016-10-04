@@ -38,9 +38,9 @@
   },
   "dependencies": {
     "colors": "latest",
+    "findhit-proxywrap": "^0.3.11",
     "graceful-fs": "^4.1.4",
     "memwatch-next": "^0.3.0",
-    "proxywrap": "latest",
     "spdy": "^3.3.3"
   }
 }
