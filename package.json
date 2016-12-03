@@ -1,7 +1,7 @@
 {
   "name": "firestarter",
   "description": "Module to safely and easily start and stop your express app",
-  "version": "0.1.28",
+  "version": "0.1.29",
   "author": "davewilliamson",
   "homepage": "http://firestarter.ukit.net",
   "keywords": [
@@ -27,25 +27,20 @@
     }
   ],
   "engine": {
-    "node": ">=0.10.0"
+    "node": ">=4.4.5"
   },
   "scripts": {
-    "test": "buster-test",
-    "preinstall": [
-      "npm install jslint buster -g"
-    ]
+    "test": "echo \"No tests :(\""
   },
   "main": "index.js",
   "devDependencies": {
-    "express": "~3.17.1",
-    "buster": "latest",
     "jshint": "latest"
   },
   "dependencies": {
     "colors": "latest",
+    "findhit-proxywrap": "git+https://github.com/danilobuiatti/proxywrap.git#master",
     "graceful-fs": "^4.1.4",
-    "memwatch": "git+https://github.com/ukit-network/node-memwatch.git",
-    "proxywrap": "latest",
-    "spdy": "1.32.0"
+    "memwatch-next": "^0.3.0",
+    "spdy": "^3.3.3"
   }
 }
