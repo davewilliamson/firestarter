@@ -1,46 +1,47 @@
 {
-  "name": "firestarter",
-  "description": "Module to safely and easily start and stop your express app",
-  "version": "0.1.29",
-  "author": "davewilliamson",
-  "homepage": "http://firestarter.ukit.net",
-  "keywords": [
-    "express",
-    "startup",
-    "shutdown",
-    "error handling",
-    "errors",
-    "SPDY"
-  ],
-  "bugs": "https://github.com/davewilliamson/firestarter/issues",
-  "private": false,
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:davewilliamson/firestarter.git"
-  },
-  "contributors": [
-    {
-      "name": "Dave Williamson",
-      "email": "dave@ukit.net",
-      "url": "http://github.com/davewilliamson"
+    "name": "firestarter",
+    "description": "Module to safely and easily start and stop your express app",
+    "version": "0.1.30",
+    "author": "davewilliamson",
+    "homepage": "http://firestarter.ukit.net",
+    "keywords": [
+        "express",
+        "startup",
+        "shutdown",
+        "error handling",
+        "errors",
+        "SPDY"
+    ],
+    "bugs": "https://github.com/davewilliamson/firestarter/issues",
+    "private": false,
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:davewilliamson/firestarter.git"
+    },
+    "contributors": [
+        {
+            "name": "Dave Williamson",
+            "email": "dave@ukit.net",
+            "url": "http://github.com/davewilliamson"
+        }
+    ],
+    "engine": {
+        "node": ">=4.4.5"
+    },
+    "scripts": {
+        "test": "echo \"No tests :(\""
+    },
+    "main": "index.js",
+    "devDependencies": {
+        "jshint": "latest"
+    },
+    "dependencies": {
+        "colors": "latest",
+        "findhit-proxywrap": "git+https://github.com/danilobuiatti/proxywrap.git#master",
+        "graceful-fs": "^4.1.4",
+        "memwatch-next": "^0.3.0",
+        "express": "~4.9.0",
+        "spdy": "^3.3.3"
     }
-  ],
-  "engine": {
-    "node": ">=4.4.5"
-  },
-  "scripts": {
-    "test": "echo \"No tests :(\""
-  },
-  "main": "index.js",
-  "devDependencies": {
-    "jshint": "latest"
-  },
-  "dependencies": {
-    "colors": "latest",
-    "findhit-proxywrap": "git+https://github.com/danilobuiatti/proxywrap.git#master",
-    "graceful-fs": "^4.1.4",
-    "memwatch-next": "^0.3.0",
-    "spdy": "^3.3.3"
-  }
 }

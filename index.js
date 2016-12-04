@@ -24,7 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-var configTool = require('./lib/configTool');
+var configTool = require('./lib/configTool'),
+    pjson = require('./package.json');;
 
 require('colors');
 
@@ -34,7 +35,7 @@ module.exports = function(userConfig) {
 
     _self.config = new configTool(userConfig);
 
-    _self.config.logger.info('Igniting the Firestarter!'.inverse.underline.yellow);
+    _self.config.logger.info('Igniting the Firestarter (v' + pjson.version + ')!'.inverse.underline.yellow);
 
 
     if (_self.config.memwatch && _self.config.memwatch.enabled) {
@@ -131,6 +132,14 @@ module.exports = function(userConfig) {
         getServerDomain: function() {
 
             return _self.config.serverDomain;
+        },
+
+        getSocketIO: function () {
+            return _self.config.sioObj;
+        },
+
+        getSecureSocketIO: function () {
+            return _self.config.secureSioObj;
         }
     };
 };
