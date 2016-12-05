@@ -120,17 +120,11 @@ module.exports = function Firestarter(userConfig) {
 
     return {
 
-        config: function() {
-            return _self.config.config;
-        },
+        config: _self.config,
 
-        shutdown: function() {
-            return _self.config.shutdow;
-        },
+        shutdown: _self.config.shutdown,
 
-        startup: function() {
-            return _self.config.startup;
-        },
+        startup: _self.config.startup,
 
         eventedStartup: function() {
             return _self.config.eventedStartup;
