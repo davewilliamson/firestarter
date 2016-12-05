@@ -106,21 +106,13 @@ module.exports = function Firestarter (userConfig) {
 
     return {
 
-        config: function (config) {
-            return new _self.config.config(config || _self.config);
-        },
+        config: _self.config.config,
 
-        shutdown: function (config) {
-            return new _self.config.shutdown(config || _self.config);
-        },
+        shutdown: _self.config.shutdown,
 
-        startup: function (config) {
-            return new _self.config.startup(config || _self.config);
-        },
+        startup: _self.config.startup,
 
-        eventedStartup: function (config) {
-            return new _self.config.eventedStartup(config || _self.config);
-        },
+        eventedStartup: _self.config.eventedStartup,
 
         getApp: function() {
 
