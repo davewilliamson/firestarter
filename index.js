@@ -29,14 +29,19 @@ var configTool = require('./lib/configTool'),
 
 require('colors');
 
-module.exports = function(userConfig) {
+module.exports = function Firestarter (userConfig) {
 
-    var _self = this || {};
+    var _self;
+
+    if (!(this instanceof Firestarter)) {
+        return new Firestarter(userConfig);
+    }
+
+    _self = this;
 
     _self.config = new configTool(userConfig);
 
     _self.config.logger.info('Igniting the Firestarter (v' + pjson.version + ')!'.inverse.underline.yellow);
-
 
     if (_self.config.memwatch && _self.config.memwatch.enabled) {
         _self.config.logger.info('Memwatch Enabled (https://github.com/lloyd/node-memwatch)'.yellow);
@@ -101,13 +106,21 @@ module.exports = function(userConfig) {
 
     return {
 
-        config: _self.config,
+        config: function (config) {
+            return new _self.config.config(config || _self.config);
+        },
 
-        shutdown: _self.config.shutdown,
+        shutdown: function (config) {
+            return new _self.config.shutdown(config || _self.config);
+        },
 
-        startup: _self.config.startup,
+        startup: function (config) {
+            return new _self.config.startup(config || _self.config);
+        },
 
-        eventedStartup: _self.config.eventedStartup,
+        eventedStartup: function (config) {
+            return new _self.config.eventedStartup(config || _self.config);
+        },
 
         getApp: function() {
 
