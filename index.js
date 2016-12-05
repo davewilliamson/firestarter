@@ -24,12 +24,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-var configTool = require('./lib/configTool'),
-    pjson = require('./package.json');;
+var ConfigTool = require('./lib/configTool'),
+    pjson = require('./package.json'),
+    GracefulExit = require('./lib/gracefulexit'),
+    SendMessage = require('./lib/sendmessage'),
+    Startup = require('./lib/startup'),
+    Shutdown = require('./lib/shutdown'),
+    EventedStartup = require('./lib/eventedStartup');
 
 require('colors');
 
-module.exports = function Firestarter (userConfig) {
+module.exports = function Firestarter(userConfig) {
 
     var _self;
 
@@ -38,34 +43,6 @@ module.exports = function Firestarter (userConfig) {
     }
 
     _self = this;
-
-    _self.config = new configTool(userConfig);
-
-    _self.config.logger.info('Igniting the Firestarter (v' + pjson.version + ')!'.inverse.underline.yellow);
-
-    if (_self.config.memwatch && _self.config.memwatch.enabled) {
-        _self.config.logger.info('Memwatch Enabled (https://github.com/lloyd/node-memwatch)'.yellow);
-        _self.config.memwatch.fn = require('memwatch-next');
-        _self.config.memwatch.fn.on('leak', function(info) {
-            _self.config.logger.warn(('Possible Memory Leak: ' + info.reason).bold.red);
-        });
-        if (_self.config.memwatch.gcStats) {
-            _self.config.memwatch.fn.on('stats', function(stats) {
-                _self.config.logger.warn(('V8 Garbage Collection: ' + require('util').inspect(stats, {
-                    colors: true,
-                    showHidden: true
-                })));
-            });
-        }
-    }
-
-    _self.config.gracefulExit = _self.config.gracefulExit || new require('./lib/gracefulexit')(_self.config);
-    _self.config.sendMessage = _self.config.sendMessage || new require('./lib/sendmessage')(_self.config);
-    _self.config.startup = _self.config.startup || new require('./lib/startup')(_self.config);
-    _self.config.shutdown = _self.config.shutdown || new require('./lib/shutdown')(_self.config);
-    _self.config.eventedStartup = _self.config.eventedStartup || new require('./lib/eventedStartup')(_self.config);
-
-    if (userConfig && userConfig.extendFirestarter) userConfig.extendFirestarter(_self.config);
 
     process.on('uncaughtException', function(err) {
         _self.config.logger.info('Uncaught Exception: ' + err);
@@ -98,11 +75,50 @@ module.exports = function Firestarter (userConfig) {
         }
     });
 
-    if (!_self.config.serverDomain) _self.config.serverDomain = _self.config.domain.create();
+    _self.config = new ConfigTool(userConfig);
+
+    _self.config.logger.info('Igniting the Firestarter (v' + pjson.version + ')!'.inverse.underline.yellow);
+
+    if (_self.config.memwatch && _self.config.memwatch.enabled) {
+        _self.config.logger.info('Memwatch Enabled (https://github.com/lloyd/node-memwatch)'.yellow);
+        _self.config.memwatch.fn = require('memwatch-next');
+        _self.config.memwatch.fn.on('leak', function(info) {
+            _self.config.logger.warn(('Possible Memory Leak: ' + info.reason).bold.red);
+        });
+        if (_self.config.memwatch.gcStats) {
+            _self.config.memwatch.fn.on('stats', function(stats) {
+                _self.config.logger.warn(('V8 Garbage Collection: ' + require('util').inspect(stats, {
+                    colors: true,
+                    showHidden: true
+                })));
+            });
+        }
+    }
+
+    if (userConfig && userConfig.extendFirestarter) userConfig.extendFirestarter(_self.config);
+
+/*
+    _self.config.gracefulExit = _self.config.gracefulExit || new GracefulExit(_self.config);
+    _self.config.sendMessage = _self.config.sendMessage || new SendMessage(_self.config);
+    _self.config.startup = _self.config.startup || new Startup(_self.config);
+    _self.config.shutdown = _self.config.shutdown || new Shutdown(_self.config);
+    _self.config.eventedStartup = _self.config.eventedStartup || new EventedStartup(_self.config);
+*/
+    _self.config.gracefulExit = new GracefulExit(_self.config);
+    _self.config.sendMessage = new SendMessage(_self.config);
+    _self.config.startup = new Startup(_self.config);
+    _self.config.shutdown = new Shutdown(_self.config);
+    _self.config.eventedStartup = new EventedStartup(_self.config)();
+
+    if (!_self.config.serverDomain) {
+        _self.config.serverDomain = _self.config.domain.create();
+    }
 
     _self.config.serverDomain.on('error', function(err) {
         _self.config.shutdown(err, true);
     });
+
+    console.dir(_self.config.eventedStartup);
 
     return {
 
@@ -110,15 +126,15 @@ module.exports = function Firestarter (userConfig) {
             return _self.config.config;
         },
 
-        shutdown: function () {
+        shutdown: function() {
             return _self.config.shutdow;
         },
 
-        startup: function {
+        startup: function() {
             return _self.config.startup;
         },
 
-        eventedStartup: function () {
+        eventedStartup: function() {
             return _self.config.eventedStartup;
         },
 
@@ -147,11 +163,11 @@ module.exports = function Firestarter (userConfig) {
             return _self.config.serverDomain;
         },
 
-        getSocketIO: function () {
+        getSocketIO: function() {
             return _self.config.sioObj;
         },
 
-        getSecureSocketIO: function () {
+        getSecureSocketIO: function() {
             return _self.config.secureSioObj;
         }
     };

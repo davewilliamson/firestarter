@@ -1,7 +1,7 @@
 {
     "name": "firestarter",
     "description": "Module to safely and easily start and stop your express app",
-    "version": "0.1.35",
+    "version": "0.1.36",
     "author": "davewilliamson",
     "homepage": "http://firestarter.ukit.net",
     "keywords": [
@@ -33,6 +33,112 @@
         "test": "echo \"No tests :(\""
     },
     "main": "index.js",
+    "jshintConfig": {
+        "curly": false,
+        "eqeqeq": true,
+        "immed": true,
+        "latedef": "nofunc",
+        "newcap": true,
+        "noarg": true,
+        "nomen": false,
+        "sub": true,
+        "undef": true,
+        "boss": true,
+        "eqnull": true,
+        "node": true,
+        "laxcomma": true,
+        "lastsemic": false,
+        "camelcase": true,
+        "forin": false,
+        "noempty": true,
+        "strict": true,
+        "unused": true,
+        "freeze": true,
+        "globals": {
+            "process": true,
+            "inspect": true,
+            "alert": true,
+            "define": true,
+            "console": true,
+            "debugger": true,
+            "immediately": true,
+            "module": true,
+            "require": true,
+            "Promise": true
+        }
+    },
+    "eslintConfig": {
+        "env": {
+            "node": true,
+            "browser": true
+        },
+        "globals": {
+            "inspect": true,
+            "immediately": true,
+            "require": true,
+            "module": true
+        },
+        "rules": {
+            "quotes": [
+                2,
+                "single"
+            ],
+            "no-mixed-requires": [
+                0,
+                true
+            ],
+            "no-underscore-dangle": 0
+        }
+    },
+    "jscsConfig": {
+        "requireSpaceAfterKeywords": [
+            "if",
+            "else",
+            "for",
+            "while",
+            "do",
+            "switch",
+            "return",
+            "try",
+            "catch"
+        ],
+        "requireSpaceBeforeBinaryOperators": [
+            "=",
+            "+=",
+            "-=",
+            "*=",
+            "/=",
+            "%=",
+            "<<=",
+            ">>=",
+            ">>>=",
+            "&=",
+            "|=",
+            "^=",
+            "+=",
+            "+",
+            "-",
+            "*",
+            "/",
+            "%",
+            "<<",
+            ">>",
+            ">>>",
+            "&",
+            "|",
+            "^",
+            "&&",
+            "||",
+            "===",
+            "==",
+            ">=",
+            "<=",
+            "<",
+            ">",
+            "!=",
+            "!=="
+        ]
+    },
     "devDependencies": {
         "jshint": "latest"
     },
