@@ -44,37 +44,6 @@ module.exports = function Firestarter(userConfig) {
 
     _self = this;
 
-    process.on('uncaughtException', function(err) {
-        _self.config.logger.info('Uncaught Exception: ' + err);
-        _self.config.logger.info(err.stack);
-        _self.config.sendMessage('offline');
-        _self.config.shutdown(null, true);
-    });
-
-    process.on('SIGINT', function() {
-        _self.config.logger.info('');
-        _self.config.logger.info('Received shutdown message from SIGINT (ctrl+c)');
-        _self.config.sendMessage('offline');
-        _self.config.shutdown(null, true);
-    });
-
-    process.on('SIGHUP', function() {
-        _self.config.logger.info('');
-        _self.config.logger.info('Received shutdown message from SIGHUP');
-        _self.config.sendMessage('offline');
-        _self.config.shutdown(null, true);
-    });
-
-    process.on('message', function(message) {
-        if (message === 'ping') {
-            _self.config.sendMessage('pong');
-        } else if (message === 'shutdown') {
-            _self.config.logger.info('Received shutdown message from process instantiator');
-            _self.config.sendMessage('offline');
-            _self.config.shutdown(null, true);
-        }
-    });
-
     _self.config = new ConfigTool(userConfig);
 
     _self.config.logger.info('Igniting the Firestarter (v' + pjson.version + ')!'.inverse.underline.yellow);
@@ -97,25 +66,62 @@ module.exports = function Firestarter(userConfig) {
 
     if (userConfig && userConfig.extendFirestarter) userConfig.extendFirestarter(_self.config);
 
-/*
-    _self.config.gracefulExit = _self.config.gracefulExit || new GracefulExit(_self.config);
-    _self.config.sendMessage = _self.config.sendMessage || new SendMessage(_self.config);
-    _self.config.startup = _self.config.startup || new Startup(_self.config);
-    _self.config.shutdown = _self.config.shutdown || new Shutdown(_self.config);
-    _self.config.eventedStartup = _self.config.eventedStartup || new EventedStartup(_self.config);
-*/
+    if (!_self.config.serverDomain) {
+        _self.config.serverDomain = _self.config.domain.create();
+    }
+
     _self.config.gracefulExit = new GracefulExit(_self.config);
     _self.config.sendMessage = new SendMessage(_self.config);
     _self.config.startup = new Startup(_self.config);
     _self.config.shutdown = new Shutdown(_self.config);
     _self.config.eventedStartup = new EventedStartup(_self.config)();
 
-    if (!_self.config.serverDomain) {
-        _self.config.serverDomain = _self.config.domain.create();
-    }
-
     _self.config.serverDomain.on('error', function(err) {
-        _self.config.shutdown(err, true);
+        _self.config.logger.warn('');
+        _self.config.logger.warn('Domain Error: ', (err ? err.stack : ''));
+        _self.config.logger.warn('');
+        _self.config.shutdown(err, 'Domain Error');
+    });
+
+    process.on('uncaughtException', function(err) {
+        _self.config.logger.warn('');
+        _self.config.logger.warn('Uncaught Exception: ', (err ? err.stack : ''));
+        _self.config.logger.warn('');
+        _self.config.sendMessage('offline');
+        _self.config.shutdown(null, 'Shutdown due to uncaughtException');
+    });
+
+    process.on('SIGINT', function(err) {
+        _self.config.logger.warn('');
+        _self.config.logger.warn('Received shutdown message from SIGINT (ctrl+c)', (err ? err.stack : ''));
+        _self.config.logger.warn('');
+        _self.config.sendMessage('offline');
+        _self.config.shutdown(null, 'Shutdown due to SIGINT');
+    });
+
+    process.on('SIGHUP', function(err) {
+        _self.config.logger.warn('');
+        _self.config.logger.warn('Received shutdown message from SIGHUP', (err ? err.stack : ''));
+        _self.config.logger.warn('');
+        _self.config.sendMessage('offline');
+        _self.config.shutdown(null, 'Shutdown due to SIGHUP');
+    });
+
+    process.on('message', function(message) {
+        if (message === 'ping') {
+            _self.config.sendMessage('pong');
+        } else if (message === 'shutdown') {
+            _self.config.logger.warn('');
+            _self.config.logger.warn('Received shutdown message from process instantiator');
+            _self.config.logger.warn('');
+            _self.config.sendMessage('offline');
+            _self.config.shutdown(null, 'Shutdown due to shutdown message');
+        } else {
+            _self.config.logger.warn('Received UNHANDLED message from process instantiator (forwarding to client):', '', {
+                message: message
+            });
+            _self.config.sendMessage(message);
+        }
     });
 
     return {
