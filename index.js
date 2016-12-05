@@ -118,8 +118,6 @@ module.exports = function Firestarter(userConfig) {
         _self.config.shutdown(err, true);
     });
 
-    console.dir(_self.config.eventedStartup);
-
     return {
 
         config: function() {
