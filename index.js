@@ -76,53 +76,62 @@ module.exports = function Firestarter(userConfig) {
     _self.config.shutdown = new Shutdown(_self.config);
     _self.config.eventedStartup = new EventedStartup(_self.config)();
 
-    _self.config.serverDomain.on('error', function(err) {
-        _self.config.logger.warn('');
-        _self.config.logger.warn('Domain Error: ', (err ? err.stack : ''));
-        _self.config.logger.warn('');
-        _self.config.shutdown(err, 'Domain Error');
-    });
+    _self.config.HandlerRegistration = function HandlerRegistration(config){
 
-    process.on('uncaughtException', function(err) {
-        _self.config.logger.warn('');
-        _self.config.logger.warn('Uncaught Exception: ', (err ? err.stack : ''));
-        _self.config.logger.warn('');
-        _self.config.sendMessage('offline');
-        _self.config.shutdown(null, 'Shutdown due to uncaughtException');
-    });
+        var _this;
 
-    process.on('SIGINT', function(err) {
-        _self.config.logger.warn('');
-        _self.config.logger.warn('Received shutdown message from SIGINT (ctrl+c)', (err ? err.stack : ''));
-        _self.config.logger.warn('');
-        _self.config.sendMessage('offline');
-        _self.config.shutdown(null, 'Shutdown due to SIGINT');
-    });
-
-    process.on('SIGHUP', function(err) {
-        _self.config.logger.warn('');
-        _self.config.logger.warn('Received shutdown message from SIGHUP', (err ? err.stack : ''));
-        _self.config.logger.warn('');
-        _self.config.sendMessage('offline');
-        _self.config.shutdown(null, 'Shutdown due to SIGHUP');
-    });
-
-    process.on('message', function(message) {
-        if (message === 'ping') {
-            _self.config.sendMessage('pong');
-        } else if (message === 'shutdown') {
-            _self.config.logger.warn('');
-            _self.config.logger.warn('Received shutdown message from process instantiator');
-            _self.config.logger.warn('');
-            _self.config.sendMessage('offline');
-            _self.config.shutdown(null, 'Shutdown due to shutdown message');
-        } else {
-            _self.config.logger.warn('Received UNHANDLED message from process instantiator (forwarding to client):', '', {
-                message: message
-            });
-            _self.config.sendMessage(message);
+        if (!(this instanceof HandlerRegistration)) {
+            return new HandlerRegistration(config)
         }
-    });
+
+        _this = this;
+
+        _this.config = config;
+
+        _this.config.serverDomain.on('error', function(err) {
+            _this.config.logger.warn('');
+            _this.config.logger.warn('Domain Error: ', (err ? err.stack : ''));
+            _this.config.shutdown(null, 'Shutdown due to Domain Error');
+        });
+
+        process.on('uncaughtException', function(err) {
+            _this.config.logger.warn('');
+            _this.config.logger.warn('Uncaught Exception: ', (err ? err.stack : ''));
+            _this.config.logger.warn('');
+            _this.config.shutdown(null, 'Shutdown due to uncaughtException');
+        });
+
+        process.on('SIGINT', function(err) {
+            _this.config.logger.warn('');
+            _this.config.logger.warn('Received shutdown message from SIGINT (ctrl+c)', (err ? err.stack : ''));
+            _this.config.logger.warn('');
+            _this.config.shutdown(null, 'Shutdown due to SIGINT');
+        });
+
+        process.on('SIGHUP', function(err) {
+            _this.config.logger.warn('');
+            _this.config.logger.warn('Received shutdown message from SIGHUP', (err ? err.stack : ''));
+            _this.config.logger.warn('');
+            _this.config.shutdown(null, 'Shutdown due to SIGHUP');
+        });
+
+        process.on('message', function(message) {
+            if (message === 'ping') {
+                _this.config.sendMessage('pong');
+            } else if (message === 'shutdown') {
+                _this.config.logger.warn('');
+                _this.config.logger.warn('Received shutdown message from process instantiator', '');
+                _this.config.logger.warn('');
+                _this.config.shutdown(null, 'Shutdown due to shutdown message');
+            } else {
+                _this.config.logger.warn('Received UNHANDLED message from process instantiator (forwarding to client):', '', {
+                    message: message
+                });
+            }
+        });
+
+        return _this;
+    };
 
     return {
 
