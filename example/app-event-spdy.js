@@ -33,7 +33,7 @@ var firestarterAppControl = firestarter.eventedStartup();
 
 firestarterAppControl.once('startup', function(app, done) {
 
-    console.log('Startup');
+    log.log('Startup');
 
     module.exports = app;
 
@@ -68,14 +68,14 @@ firestarterAppControl.once('startup', function(app, done) {
 
 firestarterAppControl.once('shutdown', function(done) {
 
-    console.log('Shutdown requested!');
+    log.log('Shutdown requested!');
 
     done();
 });
 
 firestarterAppControl.once('ready', function() {
 
-    console.log('Ready - press ctrl+c to exit');
+    log.log('Ready - press ctrl+c to exit');
 
 });
 

@@ -7,7 +7,7 @@ var firestarterAppControl = firestarter.eventedStartup();
 
 firestarterAppControl.once('startup', function(app, done) {
 
-    console.log('Startup 1 - 5 second wait');
+    log.log('Startup 1 - 5 second wait');
 
     module.exports = app;
 
@@ -38,14 +38,14 @@ firestarterAppControl.once('startup', function(app, done) {
 
 firestarterAppControl.once('startup', function(app, done) {
 
-    console.log('Startup 2');
+    log.log('Startup 2');
 
     done();
 });
 
 firestarterAppControl.once('shutdown', function(done) {
 
-    console.log('Shutdown 1 requested! - Waiting 5 seconds');
+    log.log('Shutdown 1 requested! - Waiting 5 seconds');
 
     setTimeout(function() {
         done();
@@ -56,14 +56,14 @@ firestarterAppControl.once('shutdown', function(done) {
 
 firestarterAppControl.once('shutdown', function(done) {
 
-    console.log('Shutdown 2 requested!');
+    log.log('Shutdown 2 requested!');
 
     done();
 });
 
 firestarterAppControl.once('ready', function() {
 
-    console.log('Ready 1 - Service will shutdown after 50 seconds....');
+    log.log('Ready 1 - Service will shutdown after 50 seconds....');
 
     setTimeout(function() {
 
@@ -74,7 +74,7 @@ firestarterAppControl.once('ready', function() {
 
 firestarterAppControl.once('ready', function() {
 
-    console.log('Ready 2');
+    log.log('Ready 2');
 
     var LeakingClass = function() {};
 

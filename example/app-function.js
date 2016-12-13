@@ -30,14 +30,14 @@ firestarter.startup(function(app, done) {
 
 }, function(done) {
 
-    console.log('Shutdown requested!');
+    log.log('Shutdown requested!');
 
     done();
 
 
 }, function() {
 
-    console.log('Service will shutdown after 5 seconds....');
+    log.log('Service will shutdown after 5 seconds....');
 
     setTimeout(function() {
 
