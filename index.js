@@ -31,8 +31,8 @@ var reportError = function reportError(message, err, data) {
    immediately(function() {
       console.warn('==================================================================================================================');
       console.error('==================================================================================================================');
-      console.warn(message, (typeof err === Error ? err.stack : new Error(err).stack), data);
-      console.error(message, (typeof err === Error ? err.stack : new Error(err).stack), data);
+      console.warn(message || '', (typeof err === Error ? err.stack : new Error(err).stack), data || '');
+      console.error(message || '', (typeof err === Error ? err.stack : new Error(err).stack), data || '');
       console.warn('==================================================================================================================');
       console.error('==================================================================================================================');
 
