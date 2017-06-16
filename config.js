@@ -27,9 +27,9 @@ THE SOFTWARE.
 var noLog = function() {},
 
     consoleLog = {
-        debug: log.log,
-        info: log.log,
-        warn: log.log,
+        debug: console.log,
+        info: console.log,
+        warn: console.log,
         error: console.error
     },
 
