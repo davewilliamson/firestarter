@@ -24,6 +24,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+var reportError = function reportError(message, err, data) {
+
+   var immediately = global.setImmediate || process.nextTick;
+
+   immediately(function() {
+      console.warn('==================================================================================================================');
+      console.error('==================================================================================================================');
+      console.warn(message || '', (typeof err === Error ? err.stack : new Error(err).stack), data || '');
+      console.error(message || '', (typeof err === Error ? err.stack : new Error(err).stack), data || '');
+      console.warn('==================================================================================================================');
+      console.error('==================================================================================================================');
+
+   });
+};
+
 var ConfigTool = require('./lib/configTool'),
     pjson = require('./package.json'),
     GracefulExit = require('./lib/gracefulexit'),
@@ -89,29 +104,22 @@ module.exports = function Firestarter(userConfig) {
         _this.config = config;
 
         _this.config.serverDomain.on('error', function(err) {
-            _this.config.logger.warn('');
-            _this.config.logger.warn('Domain Error: ', (err ? err.stack : ''));
+            reportError('Domain Error: ', err);
             _this.config.shutdown(null, 'Shutdown due to Domain Error');
         });
 
         process.on('uncaughtException', function(err) {
-            _this.config.logger.warn('');
-            _this.config.logger.warn('Uncaught Exception: ', (err ? err.stack : ''));
-            _this.config.logger.warn('');
+            reportError('Uncaught Exception: ', err);
             _this.config.shutdown(null, 'Shutdown due to uncaughtException');
         });
 
         process.on('SIGINT', function(err) {
-            _this.config.logger.warn('');
-            _this.config.logger.warn('Received shutdown message from SIGINT (ctrl+c)', (err ? err.stack : ''));
-            _this.config.logger.warn('');
+            reportError('Received shutdown message from SIGINT (ctrl+c)', err);
             _this.config.shutdown(null, 'Shutdown due to SIGINT');
         });
 
         process.on('SIGHUP', function(err) {
-            _this.config.logger.warn('');
-            _this.config.logger.warn('Received shutdown message from SIGHUP', (err ? err.stack : ''));
-            _this.config.logger.warn('');
+            reportError('Received shutdown message from SIGHUP', err);
             _this.config.shutdown(null, 'Shutdown due to SIGHUP');
         });
 
@@ -119,9 +127,7 @@ module.exports = function Firestarter(userConfig) {
             if (message === 'ping') {
                 _this.config.sendMessage('pong');
             } else if (message === 'shutdown') {
-                _this.config.logger.warn('');
-                _this.config.logger.warn('Received shutdown message from process instantiator', '');
-                _this.config.logger.warn('');
+                reportError('Received shutdown message from process instantiator');
                 _this.config.shutdown(null, 'Shutdown due to shutdown message');
             } else {
                 _this.config.logger.warn('Received UNHANDLED message from process instantiator (forwarding to client):', '', {
