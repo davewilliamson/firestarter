@@ -26,17 +26,14 @@ THE SOFTWARE.
 
 var reportError = function reportError(message, err, data) {
 
-   var immediately = global.setImmediate || process.nextTick;
+    var immediately = global.setImmediate || process.nextTick;
 
-   immediately(function() {
-      console.warn('==================================================================================================================');
-      console.error('==================================================================================================================');
-      console.warn(message || '', (typeof err === Error ? err.stack : new Error(err).stack), data || '');
-      console.error(message || '', (typeof err === Error ? err.stack : new Error(err).stack), data || '');
-      console.warn('==================================================================================================================');
-      console.error('==================================================================================================================');
 
-   });
+    immediately(function () {
+        console.error('==================================================================================================================');
+        console.error(message || '', (typeof err === Error ? err.stack : new Error('Missing error:' + err).stack), data || '');
+        console.error('==================================================================================================================');
+    });
 };
 
 var ConfigTool = require('./lib/configTool'),
@@ -66,11 +63,11 @@ module.exports = function Firestarter(userConfig) {
     if (_self.config.memwatch && _self.config.memwatch.enabled) {
         _self.config.logger.info('Memwatch Enabled (https://github.com/lloyd/node-memwatch)'.yellow);
         _self.config.memwatch.fn = require('memwatch-next');
-        _self.config.memwatch.fn.on('leak', function(info) {
+        _self.config.memwatch.fn.on('leak', function (info) {
             _self.config.logger.warn(('Possible Memory Leak: ' + info.reason).bold.red);
         });
         if (_self.config.memwatch.gcStats) {
-            _self.config.memwatch.fn.on('stats', function(stats) {
+            _self.config.memwatch.fn.on('stats', function (stats) {
                 _self.config.logger.warn(('V8 Garbage Collection: ' + require('util').inspect(stats, {
                     colors: true,
                     showHidden: true
@@ -79,7 +76,7 @@ module.exports = function Firestarter(userConfig) {
         }
     }
 
-    if (userConfig && userConfig.extendFirestarter) userConfig.extendFirestarter(_self.config);
+    if (userConfig && userConfig.extendFirestarter) {userConfig.extendFirestarter(_self.config);}
 
     if (!_self.config.serverDomain) {
         _self.config.serverDomain = _self.config.domain.create();
@@ -91,7 +88,7 @@ module.exports = function Firestarter(userConfig) {
     _self.config.shutdown = new Shutdown(_self.config);
     _self.config.eventedStartup = new EventedStartup(_self.config)();
 
-    _self.config.HandlerRegistration = function HandlerRegistration(config){
+    _self.config.HandlerRegistration = function HandlerRegistration(config) {
 
         var _this;
 
@@ -103,31 +100,45 @@ module.exports = function Firestarter(userConfig) {
 
         _this.config = config;
 
-        _this.config.serverDomain.on('error', function(err) {
+        _this.config.serverDomain.on('error', function (err) {
+            if (typeof err !== Error) {
+                err = new Error('Domain Error did not get an error object: ' + err || 'undefined error');
+            }
             reportError('Domain Error: ', err);
             _this.config.shutdown(null, 'Shutdown due to Domain Error');
         });
 
-        process.on('uncaughtException', function(err) {
+        process.on('uncaughtException', function (err) {
+            if (typeof err !== Error) {
+                err = new Error('Exeption did not get an error object: ' + err || 'undefined error');
+            }
             reportError('Uncaught Exception: ', err);
             _this.config.shutdown(null, 'Shutdown due to uncaughtException');
         });
 
-        process.on('SIGINT', function(err) {
+        process.on('SIGINT', function (err) {
+            if (typeof err !== Error) {
+                err = new Error('SIGINT did not get an error object: ' + err || 'undefined error');
+            }
             reportError('Received shutdown message from SIGINT (ctrl+c)', err);
             _this.config.shutdown(null, 'Shutdown due to SIGINT');
         });
 
-        process.on('SIGHUP', function(err) {
+        process.on('SIGHUP', function (err) {
+            if (typeof err !== Error) {
+                err = new Error('SIGHUP did not get an error object: ' + err || 'undefined error');
+            }
             reportError('Received shutdown message from SIGHUP', err);
             _this.config.shutdown(null, 'Shutdown due to SIGHUP');
         });
 
-        process.on('message', function(message) {
+        process.on('message', function (message) {
+            var err;
             if (message === 'ping') {
                 _this.config.sendMessage('pong');
             } else if (message === 'shutdown') {
-                reportError('Received shutdown message from process instantiator');
+                err = new Error('External shutdown requested: ' + message);
+                reportError('Received shutdown message from process instantiator', err);
                 _this.config.shutdown(null, 'Shutdown due to shutdown message');
             } else {
                 _this.config.logger.warn('Received UNHANDLED message from process instantiator (forwarding to client):', '', {
@@ -147,40 +158,40 @@ module.exports = function Firestarter(userConfig) {
 
         startup: _self.config.startup,
 
-        eventedStartup: function() {
+        eventedStartup: function () {
             return _self.config.eventedStartup;
         },
 
-        getApp: function() {
+        getApp: function () {
 
             return _self.config.app;
         },
 
-        getServer: function() {
+        getServer: function () {
 
             return _self.config.server;
         },
 
-        getSpdyServer: function() {
+        getSpdyServer: function () {
 
             return _self.config.spdyServer;
         },
 
-        getHttp: function() {
+        getHttp: function () {
 
             return _self.config.http;
         },
 
-        getServerDomain: function() {
+        getServerDomain: function () {
 
             return _self.config.serverDomain;
         },
 
-        getSocketIO: function() {
+        getSocketIO: function () {
             return _self.config.sioObj;
         },
 
-        getSecureSocketIO: function() {
+        getSecureSocketIO: function () {
             return _self.config.secureSioObj;
         }
     };
