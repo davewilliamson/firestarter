@@ -1,153 +1,156 @@
 {
-    "name": "firestarter",
-    "description": "Module to safely and easily start and stop your express app",
-    "version": "0.1.53",
-    "author": "davewilliamson",
-    "homepage": "http://firestarter.ukit.net",
-    "keywords": [
-        "express",
-        "startup",
-        "shutdown",
-        "error handling",
-        "errors",
-        "SPDY"
-    ],
-    "bugs": "https://github.com/davewilliamson/firestarter/issues",
-    "private": false,
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:davewilliamson/firestarter.git"
-    },
-    "contributors": [
-        {
-            "name": "Dave Williamson",
-            "email": "dave@ukit.net",
-            "url": "http://github.com/davewilliamson"
-        }
-    ],
-    "engine": {
-        "node": ">=4.4.5"
-    },
-    "scripts": {
-        "test": "echo \"No tests :(\""
-    },
-    "main": "index.js",
-    "jshintConfig": {
-        "curly": false,
-        "eqeqeq": true,
-        "immed": true,
-        "latedef": "nofunc",
-        "newcap": true,
-        "noarg": true,
-        "nomen": false,
-        "sub": true,
-        "undef": true,
-        "boss": true,
-        "eqnull": true,
-        "node": true,
-        "laxcomma": true,
-        "lastsemic": false,
-        "camelcase": true,
-        "forin": false,
-        "noempty": true,
-        "strict": true,
-        "unused": true,
-        "freeze": true,
-        "globals": {
-            "process": true,
-            "inspect": true,
-            "alert": true,
-            "define": true,
-            "console": true,
-            "debugger": true,
-            "immediately": true,
-            "module": true,
-            "require": true,
-            "Promise": true
-        }
-    },
-    "eslintConfig": {
-        "env": {
-            "node": true,
-            "browser": true
-        },
-        "globals": {
-            "inspect": true,
-            "immediately": true,
-            "require": true,
-            "module": true
-        },
-        "rules": {
-            "quotes": [
-                2,
-                "single"
-            ],
-            "no-mixed-requires": [
-                0,
-                true
-            ],
-            "no-underscore-dangle": 0
-        }
-    },
-    "jscsConfig": {
-        "requireSpaceAfterKeywords": [
-            "if",
-            "else",
-            "for",
-            "while",
-            "do",
-            "switch",
-            "return",
-            "try",
-            "catch"
-        ],
-        "requireSpaceBeforeBinaryOperators": [
-            "=",
-            "+=",
-            "-=",
-            "*=",
-            "/=",
-            "%=",
-            "<<=",
-            ">>=",
-            ">>>=",
-            "&=",
-            "|=",
-            "^=",
-            "+=",
-            "+",
-            "-",
-            "*",
-            "/",
-            "%",
-            "<<",
-            ">>",
-            ">>>",
-            "&",
-            "|",
-            "^",
-            "&&",
-            "||",
-            "===",
-            "==",
-            ">=",
-            "<=",
-            "<",
-            ">",
-            "!=",
-            "!=="
-        ]
-    },
-    "devDependencies": {
-        "jshint": "latest"
-    },
-    "dependencies": {
-        "colors": "latest",
-        "express": "~4.9.0",
-        "findhit-proxywrap": "git+https://github.com/danilobuiatti/proxywrap.git#master",
-        "graceful-fs": "^4.1.4",
-        "memwatch-next": "^0.3.0",
-        "spdy": "^3.3.3"
+  "name": "firestarter",
+  "description": "Module to safely and easily start and stop your express app",
+  "version": "0.1.54",
+  "author": "davewilliamson",
+  "homepage": "http://firestarter.ukit.net",
+  "keywords": [
+    "express",
+    "startup",
+    "shutdown",
+    "error handling",
+    "errors",
+    "SPDY"
+  ],
+  "bugs": "https://github.com/davewilliamson/firestarter/issues",
+  "private": false,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:davewilliamson/firestarter.git"
+  },
+  "contributors": [
+    {
+      "name": "Dave Williamson",
+      "email": "dave@ukit.net",
+      "url": "http://github.com/davewilliamson"
     }
+  ],
+  "engine": {
+    "node": ">=4.4.5"
+  },
+  "scripts": {
+    "test": "echo \"No tests :(\""
+  },
+  "main": "index.js",
+  "jshintConfig": {
+    "curly": false,
+    "eqeqeq": true,
+    "immed": true,
+    "latedef": "nofunc",
+    "newcap": true,
+    "noarg": true,
+    "nomen": false,
+    "sub": true,
+    "undef": true,
+    "boss": true,
+    "eqnull": true,
+    "node": true,
+    "laxcomma": true,
+    "lastsemic": false,
+    "camelcase": true,
+    "forin": false,
+    "noempty": true,
+    "strict": true,
+    "unused": true,
+    "freeze": true,
+    "globals": {
+      "process": true,
+      "inspect": true,
+      "alert": true,
+      "define": true,
+      "console": true,
+      "debugger": true,
+      "immediately": true,
+      "module": true,
+      "require": true,
+      "Promise": true
+    }
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true,
+      "browser": true
+    },
+    "globals": {
+      "inspect": true,
+      "immediately": true,
+      "require": true,
+      "module": true
+    },
+    "rules": {
+      "quotes": [
+        2,
+        "single"
+      ],
+      "no-mixed-requires": [
+        0,
+        true
+      ],
+      "no-underscore-dangle": 0
+    }
+  },
+  "jscsConfig": {
+    "requireSpaceAfterKeywords": [
+      "if",
+      "else",
+      "for",
+      "while",
+      "do",
+      "switch",
+      "return",
+      "try",
+      "catch"
+    ],
+    "requireSpaceBeforeBinaryOperators": [
+      "=",
+      "+=",
+      "-=",
+      "*=",
+      "/=",
+      "%=",
+      "<<=",
+      ">>=",
+      ">>>=",
+      "&=",
+      "|=",
+      "^=",
+      "+=",
+      "+",
+      "-",
+      "*",
+      "/",
+      "%",
+      "<<",
+      ">>",
+      ">>>",
+      "&",
+      "|",
+      "^",
+      "&&",
+      "||",
+      "===",
+      "==",
+      ">=",
+      "<=",
+      "<",
+      ">",
+      "!=",
+      "!=="
+    ]
+  },
+  "devDependencies": {
+    "error-handler": "^1.0.0",
+    "jshint": "latest",
+    "response-time": "^2.3.2"
+  },
+  "dependencies": {
+    "colors": "latest",
+    "express": "latest",
+    "findhit-proxywrap": "latest",
+    "graceful-fs": "latest",
+    "long-stack-traces": "^0.1.2",
+    "memwatch-next": "latest",
+    "spdy": "latest"
+  }
 }

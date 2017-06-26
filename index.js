@@ -24,17 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-var reportError = function reportError(message, err, data) {
-
-    var immediately = global.setImmediate || process.nextTick;
-
-
-    immediately(function () {
-        console.error('==================================================================================================================');
-        console.error(message || '', (typeof err === Error ? err.stack : new Error('Missing error:' + err).stack), data || '');
-        console.error('==================================================================================================================');
-    });
-};
+// require('long-stack-traces');
 
 var ConfigTool = require('./lib/configTool'),
     pjson = require('./package.json'),
@@ -42,9 +32,33 @@ var ConfigTool = require('./lib/configTool'),
     SendMessage = require('./lib/sendmessage'),
     Startup = require('./lib/startup'),
     Shutdown = require('./lib/shutdown'),
+    util = require('util'),
     EventedStartup = require('./lib/eventedStartup');
 
 require('colors');
+
+var reportError = function reportError(message, err, data) {
+
+    var immediately = global.setImmediate || process.nextTick;
+
+
+    immediately(function () {
+        console.error('===============================| '.red + 'F I R E   S T A R T E R   E R R O R   H A N D L E R'.yellow + ' |==============================='.red);
+        try {
+            console.error(message.red, err.stack.red);
+            if (data) {
+                console.error(util.inspect(data, {
+                    colors: true,
+                    showHidden: true
+                }));
+            }
+        } catch (ex) {
+            console.error('Error logging ERROR:', ex.stack);
+        }
+        console.error('=================================================================================================================='.red);
+    });
+};
+
 
 module.exports = function Firestarter(userConfig) {
 
@@ -78,10 +92,11 @@ module.exports = function Firestarter(userConfig) {
 
     if (userConfig && userConfig.extendFirestarter) {userConfig.extendFirestarter(_self.config);}
 
+/*
     if (!_self.config.serverDomain) {
         _self.config.serverDomain = _self.config.domain.create();
     }
-
+*/
     _self.config.gracefulExit = new GracefulExit(_self.config);
     _self.config.sendMessage = new SendMessage(_self.config);
     _self.config.startup = new Startup(_self.config);
@@ -93,43 +108,45 @@ module.exports = function Firestarter(userConfig) {
         var _this;
 
         if (!(this instanceof HandlerRegistration)) {
-            return new HandlerRegistration(config)
+            return new HandlerRegistration(config);
         }
 
         _this = this;
 
         _this.config = config;
 
+/*
         _this.config.serverDomain.on('error', function (err) {
-            if (typeof err !== Error) {
+            if (!(err instanceof Error)) {
                 err = new Error('Domain Error did not get an error object: ' + err || 'undefined error');
             }
             reportError('Domain Error: ', err);
             _this.config.shutdown(null, 'Shutdown due to Domain Error');
         });
+*/
 
         process.on('uncaughtException', function (err) {
-            if (typeof err !== Error) {
+            if (!(err instanceof Error)) {
                 err = new Error('Exeption did not get an error object: ' + err || 'undefined error');
             }
             reportError('Uncaught Exception: ', err);
-            _this.config.shutdown(null, 'Shutdown due to uncaughtException');
+            _this.config.shutdown(err, 'Shutdown due to uncaughtException');
         });
 
         process.on('SIGINT', function (err) {
-            if (typeof err !== Error) {
-                err = new Error('SIGINT did not get an error object: ' + err || 'undefined error');
+            if (!(err instanceof Error)) {
+                err = new Error('SIGINT shutdown (ctrl+c)');
             }
-            reportError('Received shutdown message from SIGINT (ctrl+c)', err);
-            _this.config.shutdown(null, 'Shutdown due to SIGINT');
+            reportError('Received shutdown message', err);
+            _this.config.shutdown(err, 'Shutdown due to SIGINT');
         });
 
         process.on('SIGHUP', function (err) {
-            if (typeof err !== Error) {
+            if (!(err instanceof Error)) {
                 err = new Error('SIGHUP did not get an error object: ' + err || 'undefined error');
             }
             reportError('Received shutdown message from SIGHUP', err);
-            _this.config.shutdown(null, 'Shutdown due to SIGHUP');
+            _this.config.shutdown(err, 'Shutdown due to SIGHUP');
         });
 
         process.on('message', function (message) {
@@ -139,7 +156,7 @@ module.exports = function Firestarter(userConfig) {
             } else if (message === 'shutdown') {
                 err = new Error('External shutdown requested: ' + message);
                 reportError('Received shutdown message from process instantiator', err);
-                _this.config.shutdown(null, 'Shutdown due to shutdown message');
+                _this.config.shutdown(err, 'Shutdown due to shutdown message');
             } else {
                 _this.config.logger.warn('Received UNHANDLED message from process instantiator (forwarding to client):', '', {
                     message: message
