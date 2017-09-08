@@ -133,7 +133,7 @@ module.exports = function Firestarter(userConfig) {
             reportError('Received shutdown message', err);
             _this.config.shutdown(err, 'Shutdown due to SIGINT');
         });
-
+/*
         process.on('SIGTERM', function (err) {
             if (!(err instanceof Error)) {
                 err = new Error('SIGTERM shutdown');
@@ -141,7 +141,7 @@ module.exports = function Firestarter(userConfig) {
             reportError('Received shutdown message', err);
             _this.config.shutdown(err, 'Shutdown due to SIGTERM');
         });
-
+*/
         process.on('SIGHUP', function (err) {
             if (!(err instanceof Error)) {
                 err = new Error('SIGHUP did not get an error object: ' + err || 'undefined error');
