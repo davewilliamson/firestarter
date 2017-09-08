@@ -147,10 +147,9 @@
   "dependencies": {
     "colors": "latest",
     "express": "latest",
-    "xfindhit-proxywrap": "git+https://github.com/danilobuiatti/proxywrap.git#master",
     "findhit-proxywrap": "latest",
     "graceful-fs": "latest",
-    "long-stack-traces": "^0.1.2",
+    "long-stack-traces": "latest",
     "memwatch-next": "latest",
     "spdy": "latest"
   }
