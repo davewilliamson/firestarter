@@ -23,8 +23,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-/*jshint unused:false */
-var noLog = function() {},
+/* jshint unused:false */
+var noLog = function () {},
 
     consoleLog = {
         debug: console.log,
@@ -39,7 +39,7 @@ var noLog = function() {},
         warn: noLog,
     },
 
-    me = module.exports = function() {
+    me = module.exports = function () {
 
         return {
             exUser: {
@@ -55,9 +55,14 @@ var noLog = function() {},
             startupTimeout: 60,
             maxConnectionTime: 15,
             maxSocketTime: 15,
+            proxyProtocol: false,
+            proxyProtocolConfig: {
+                strict: false,
+                ignoreStrictExceptions: true,
+                overrideRemote: false
+            },
             error: consoleLog,
             express: require('express'),
-            //domain: require('domain'),
             http: require('http'),
             app: require('express')(),
             server: null,

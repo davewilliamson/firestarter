@@ -92,11 +92,6 @@ module.exports = function Firestarter(userConfig) {
 
     if (userConfig && userConfig.extendFirestarter) {userConfig.extendFirestarter(_self.config);}
 
-/*
-    if (!_self.config.serverDomain) {
-        _self.config.serverDomain = _self.config.domain.create();
-    }
-*/
     _self.config.gracefulExit = new GracefulExit(_self.config);
     _self.config.sendMessage = new SendMessage(_self.config);
     _self.config.startup = new Startup(_self.config);
@@ -115,16 +110,6 @@ module.exports = function Firestarter(userConfig) {
 
         _this.config = config;
 
-/*
-        _this.config.serverDomain.on('error', function (err) {
-            if (!(err instanceof Error)) {
-                err = new Error('Domain Error did not get an error object: ' + err || 'undefined error');
-            }
-            reportError('Domain Error: ', err);
-            _this.config.shutdown(null, 'Shutdown due to Domain Error');
-        });
-*/
-
         process.on('uncaughtException', function (err) {
             if (!(err instanceof Error)) {
                 err = new Error('Exeption did not get an error object: ' + err || 'undefined error');
@@ -132,13 +117,29 @@ module.exports = function Firestarter(userConfig) {
             reportError('Uncaught Exception: ', err);
             _this.config.shutdown(err, 'Shutdown due to uncaughtException');
         });
-
+/*
+        process.on('unhandledRejection', function (reason) {
+            if (!(reason instanceof Error)) {
+                reason = new Error('Rejection did not get an error object: ' + reason || 'undefined error');
+            }
+            reportError('Uncaught Exception: ', reason);
+            _this.config.shutdown(reason, 'Shutdown due to unhandledRejection');
+        });
+*/
         process.on('SIGINT', function (err) {
             if (!(err instanceof Error)) {
                 err = new Error('SIGINT shutdown (ctrl+c)');
             }
             reportError('Received shutdown message', err);
             _this.config.shutdown(err, 'Shutdown due to SIGINT');
+        });
+
+        process.on('SIGTERM', function (err) {
+            if (!(err instanceof Error)) {
+                err = new Error('SIGTERM shutdown');
+            }
+            reportError('Received shutdown message', err);
+            _this.config.shutdown(err, 'Shutdown due to SIGTERM');
         });
 
         process.on('SIGHUP', function (err) {
