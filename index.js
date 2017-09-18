@@ -110,7 +110,7 @@ module.exports = function Firestarter(userConfig) {
 
         _this.config = config;
 
-        process.on('uncaughtException', function (err) {
+        process.once('uncaughtException', function (err) {
             if (!(err instanceof Error)) {
                 err = new Error('Exeption did not get an error object: ' + err || 'undefined error');
             }
@@ -126,7 +126,7 @@ module.exports = function Firestarter(userConfig) {
             _this.config.shutdown(reason, 'Shutdown due to unhandledRejection');
         });
 */
-        process.on('SIGINT', function (err) {
+        process.once('SIGINT', function (err) {
             if (!(err instanceof Error)) {
                 err = new Error('SIGINT shutdown (ctrl+c)');
             }
@@ -134,7 +134,7 @@ module.exports = function Firestarter(userConfig) {
             _this.config.shutdown(err, 'Shutdown due to SIGINT');
         });
 /*
-        process.on('SIGTERM', function (err) {
+        process.once('SIGTERM', function (err) {
             if (!(err instanceof Error)) {
                 err = new Error('SIGTERM shutdown');
             }
@@ -142,7 +142,7 @@ module.exports = function Firestarter(userConfig) {
             _this.config.shutdown(err, 'Shutdown due to SIGTERM');
         });
 */
-        process.on('SIGHUP', function (err) {
+        process.once('SIGHUP', function (err) {
             if (!(err instanceof Error)) {
                 err = new Error('SIGHUP did not get an error object: ' + err || 'undefined error');
             }
