@@ -24,33 +24,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-<<<<<<< HEAD
-
-/**
- * 
- * 
- * @param {any} message 
- * @param {any} err 
- * @param {any} data 
- */
-var reportError = function reportError(message, err, data) {
-
-   var immediately = global.setImmediate || process.nextTick;
-
-   immediately(function() {
-      console.warn('==================================================================================================================');
-      console.error('==================================================================================================================');
-      console.warn(message || '', (typeof err === Error ? err.stack : new Error(err).stack), data || '');
-      console.error(message || '', (typeof err === Error ? err.stack : new Error(err).stack), data || '');
-      console.warn('==================================================================================================================');
-      console.error('==================================================================================================================');
-
-   });
-};
-=======
-// require('long-stack-traces');
->>>>>>> 7f10b33d3870184664411fd0eda149c13a6a7353
-
 var ConfigTool = require('./lib/configTool'),
     pjson = require('./package.json'),
     GracefulExit = require('./lib/gracefulexit'),
@@ -62,14 +35,7 @@ var ConfigTool = require('./lib/configTool'),
 
 require('colors');
 
-<<<<<<< HEAD
-/**
- * 
- * 
- * @param {any} userConfig 
- * @returns 
- */
-=======
+
 var reportError = function reportError(message, err, data) {
 
     var immediately = global.setImmediate || process.nextTick;
@@ -92,8 +58,6 @@ var reportError = function reportError(message, err, data) {
     });
 };
 
-
->>>>>>> 7f10b33d3870184664411fd0eda149c13a6a7353
 module.exports = function Firestarter(userConfig) {
 
     var _self;
@@ -151,7 +115,7 @@ module.exports = function Firestarter(userConfig) {
             reportError('Uncaught Exception: ', err);
             _this.config.shutdown(err, 'Shutdown due to uncaughtException');
         });
-/*
+
         process.on('unhandledRejection', function (reason) {
             if (!(reason instanceof Error)) {
                 reason = new Error('Rejection did not get an error object: ' + reason || 'undefined error');
@@ -159,7 +123,7 @@ module.exports = function Firestarter(userConfig) {
             reportError('Uncaught Exception: ', reason);
             _this.config.shutdown(reason, 'Shutdown due to unhandledRejection');
         });
-*/
+
         process.once('SIGINT', function (err) {
             if (!(err instanceof Error)) {
                 err = new Error('SIGINT shutdown (ctrl+c)');
@@ -167,7 +131,7 @@ module.exports = function Firestarter(userConfig) {
             reportError('Received shutdown message', err);
             _this.config.shutdown(err, 'Shutdown due to SIGINT');
         });
-/*
+
         process.once('SIGTERM', function (err) {
             if (!(err instanceof Error)) {
                 err = new Error('SIGTERM shutdown');
@@ -175,7 +139,7 @@ module.exports = function Firestarter(userConfig) {
             reportError('Received shutdown message', err);
             _this.config.shutdown(err, 'Shutdown due to SIGTERM');
         });
-*/
+
         process.once('SIGHUP', function (err) {
             if (!(err instanceof Error)) {
                 err = new Error('SIGHUP did not get an error object: ' + err || 'undefined error');
