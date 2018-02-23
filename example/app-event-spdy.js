@@ -17,8 +17,8 @@ var firestarter = require('../')({
     },
     spdyEnabled: true,
     spdyOptions: {
-        keyFile: 'test-key.pem',
-        certFile: 'test-cert.pem',
+        keyFile: './test-key.pem',
+        certFile: './test-cert.pem',
         // caFile: 'test-alphaSSL.crt',
         windowSize: 1048576,
         plain: false,
@@ -33,15 +33,15 @@ var firestarterAppControl = firestarter.eventedStartup();
 
 firestarterAppControl.once('startup', function(app, done) {
 
-    log.log('Startup');
+    console.log('Startup');
 
     module.exports = app;
 
 
     app.disable('trust proxy');
     app.set('version', '0.0.1');
-    app.use(express.compress());
-    app.use(express.bodyParser());
+    // app.use(express.compress());
+    // app.use(express.bodyParser());
 
 
     if (process.env.NODE_ENV === 'production') {
@@ -53,8 +53,8 @@ firestarterAppControl.once('startup', function(app, done) {
     if (process.env.NODE_ENV === 'development') {
     
         app.disable('view cache');
-        app.use(express.responseTime());
-        app.use(express.errorHandler());
+        // app.use(express.responseTime());
+        // app.use(express.errorHandler());
 
     }
 
@@ -68,14 +68,14 @@ firestarterAppControl.once('startup', function(app, done) {
 
 firestarterAppControl.once('shutdown', function(done) {
 
-    log.log('Shutdown requested!');
+    console.log('Shutdown requested!');
 
     done();
 });
 
 firestarterAppControl.once('ready', function() {
 
-    log.log('Ready - press ctrl+c to exit');
+    console.log('Ready - press ctrl+c to exit');
 
 });
 

@@ -7,7 +7,7 @@ var firestarterAppControl = firestarter.eventedStartup();
 
 firestarterAppControl.once('startup', function(app, done) {
 
-    log.log('Startup 1 - 5 second wait');
+    console.log('Startup 1 - 5 second wait');
 
     module.exports = app;
 
@@ -27,8 +27,8 @@ firestarterAppControl.once('startup', function(app, done) {
     if (process.env.NODE_ENV === 'development') {
     
         app.disable('view cache');
-        app.use(express.responseTime());
-        app.use(express.errorHandler());
+        // app.use(express.responseTime());
+        // app.use(express.errorHandler());
 
     }
 
@@ -42,14 +42,14 @@ firestarterAppControl.once('startup', function(app, done) {
 
 firestarterAppControl.once('startup', function(app, done) {
 
-    log.log('Startup 2');
+    console.log('Startup 2');
 
     done();
 });
 
 firestarterAppControl.once('shutdown', function(done) {
 
-    log.log('Shutdown 1 requested! - Waiting 5 seconds');
+    console.log('Shutdown 1 requested! - Waiting 5 seconds');
 
     setTimeout(function() {
         done();
@@ -60,14 +60,14 @@ firestarterAppControl.once('shutdown', function(done) {
 
 firestarterAppControl.once('shutdown', function(done) {
 
-    log.log('Shutdown 2 requested!');
+    console.log('Shutdown 2 requested!');
 
     done();
 });
 
 firestarterAppControl.once('ready', function() {
 
-    log.log('Ready 1 - Service will shutdown after 5 seconds....');
+    console.log('Ready 1 - Service will shutdown after 5 seconds....');
 
     setTimeout(function() {
 
@@ -78,7 +78,7 @@ firestarterAppControl.once('ready', function() {
 
 firestarterAppControl.once('ready', function() {
 
-    log.log('Ready 2');
+    console.log('Ready 2');
 });
 
 

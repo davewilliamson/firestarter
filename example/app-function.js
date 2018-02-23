@@ -11,8 +11,8 @@ firestarter.startup(function(app, done) {
         app.disable('trust proxy');
         app.set('version', '0.0.1');
         app.set('port', 1234);
-        app.use(express.compress());
-        app.use(express.bodyParser());
+        // app.use(express.compress());
+        // app.use(express.bodyParser());
     });
 
     app.configure('production', function() {
@@ -22,8 +22,8 @@ firestarter.startup(function(app, done) {
 
     app.configure('development', function() {
         app.disable('view cache');
-        app.use(express.responseTime());
-        app.use(express.errorHandler());
+        // app.use(express.responseTime());
+        // app.use(express.errorHandler());
     });
 
     done();

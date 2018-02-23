@@ -24,6 +24,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+
+/**
+ * 
+ * 
+ * @param {any} message 
+ * @param {any} err 
+ * @param {any} data 
+ */
 var reportError = function reportError(message, err, data) {
 
    var immediately = global.setImmediate || process.nextTick;
@@ -49,6 +57,12 @@ var ConfigTool = require('./lib/configTool'),
 
 require('colors');
 
+/**
+ * 
+ * 
+ * @param {any} userConfig 
+ * @returns 
+ */
 module.exports = function Firestarter(userConfig) {
 
     var _self;

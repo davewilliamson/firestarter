@@ -33,44 +33,10 @@
         "test": "echo \"No tests :(\""
     },
     "main": "index.js",
-    "jshintConfig": {
-        "curly": false,
-        "eqeqeq": true,
-        "immed": true,
-        "latedef": "nofunc",
-        "newcap": true,
-        "noarg": true,
-        "nomen": false,
-        "sub": true,
-        "undef": true,
-        "boss": true,
-        "eqnull": true,
-        "node": true,
-        "laxcomma": true,
-        "lastsemic": false,
-        "camelcase": true,
-        "forin": false,
-        "noempty": true,
-        "strict": true,
-        "unused": true,
-        "freeze": true,
-        "globals": {
-            "process": true,
-            "inspect": true,
-            "alert": true,
-            "define": true,
-            "console": true,
-            "debugger": true,
-            "immediately": true,
-            "module": true,
-            "require": true,
-            "Promise": true
-        }
-    },
     "eslintConfig": {
         "env": {
             "node": true,
-            "browser": true
+            "browser": false
         },
         "globals": {
             "inspect": true,
@@ -90,64 +56,12 @@
             "no-underscore-dangle": 0
         }
     },
-    "jscsConfig": {
-        "requireSpaceAfterKeywords": [
-            "if",
-            "else",
-            "for",
-            "while",
-            "do",
-            "switch",
-            "return",
-            "try",
-            "catch"
-        ],
-        "requireSpaceBeforeBinaryOperators": [
-            "=",
-            "+=",
-            "-=",
-            "*=",
-            "/=",
-            "%=",
-            "<<=",
-            ">>=",
-            ">>>=",
-            "&=",
-            "|=",
-            "^=",
-            "+=",
-            "+",
-            "-",
-            "*",
-            "/",
-            "%",
-            "<<",
-            ">>",
-            ">>>",
-            "&",
-            "|",
-            "^",
-            "&&",
-            "||",
-            "===",
-            "==",
-            ">=",
-            "<=",
-            "<",
-            ">",
-            "!=",
-            "!=="
-        ]
-    },
-    "devDependencies": {
-        "jshint": "latest"
-    },
     "dependencies": {
         "colors": "latest",
-        "express": "~4.9.0",
+        "express": "latest",
         "findhit-proxywrap": "git+https://github.com/danilobuiatti/proxywrap.git#master",
-        "graceful-fs": "^4.1.4",
-        "memwatch-next": "^0.3.0",
-        "spdy": "^3.3.3"
+        "graceful-fs": "latest",
+        "memwatch-next": "latest",
+        "spdy": "latest"
     }
 }
