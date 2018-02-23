@@ -11,7 +11,6 @@ firestarterAppControl.once('startup', function (app, done) {
 
     module.exports = app;
 
-
     app.disable('trust proxy');
     app.set('version', '0.0.1');
     app.set('port', 1234);
