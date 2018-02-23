@@ -24,6 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+<<<<<<< HEAD
 
 /**
  * 
@@ -46,6 +47,9 @@ var reportError = function reportError(message, err, data) {
 
    });
 };
+=======
+// require('long-stack-traces');
+>>>>>>> 7f10b33d3870184664411fd0eda149c13a6a7353
 
 var ConfigTool = require('./lib/configTool'),
     pjson = require('./package.json'),
@@ -53,16 +57,43 @@ var ConfigTool = require('./lib/configTool'),
     SendMessage = require('./lib/sendmessage'),
     Startup = require('./lib/startup'),
     Shutdown = require('./lib/shutdown'),
+    util = require('util'),
     EventedStartup = require('./lib/eventedStartup');
 
 require('colors');
 
+<<<<<<< HEAD
 /**
  * 
  * 
  * @param {any} userConfig 
  * @returns 
  */
+=======
+var reportError = function reportError(message, err, data) {
+
+    var immediately = global.setImmediate || process.nextTick;
+
+
+    immediately(function () {
+        console.error('===============================| '.red + 'F I R E   S T A R T E R   E R R O R   H A N D L E R'.yellow + ' |==============================='.red);
+        try {
+            console.error(message.red, err.stack.red);
+            if (data) {
+                console.error(util.inspect(data, {
+                    colors: true,
+                    showHidden: true
+                }));
+            }
+        } catch (ex) {
+            console.error('Error logging ERROR:', ex.stack);
+        }
+        console.error('=================================================================================================================='.red);
+    });
+};
+
+
+>>>>>>> 7f10b33d3870184664411fd0eda149c13a6a7353
 module.exports = function Firestarter(userConfig) {
 
     var _self;
@@ -80,11 +111,11 @@ module.exports = function Firestarter(userConfig) {
     if (_self.config.memwatch && _self.config.memwatch.enabled) {
         _self.config.logger.info('Memwatch Enabled (https://github.com/lloyd/node-memwatch)'.yellow);
         _self.config.memwatch.fn = require('memwatch-next');
-        _self.config.memwatch.fn.on('leak', function(info) {
+        _self.config.memwatch.fn.on('leak', function (info) {
             _self.config.logger.warn(('Possible Memory Leak: ' + info.reason).bold.red);
         });
         if (_self.config.memwatch.gcStats) {
-            _self.config.memwatch.fn.on('stats', function(stats) {
+            _self.config.memwatch.fn.on('stats', function (stats) {
                 _self.config.logger.warn(('V8 Garbage Collection: ' + require('util').inspect(stats, {
                     colors: true,
                     showHidden: true
@@ -93,11 +124,7 @@ module.exports = function Firestarter(userConfig) {
         }
     }
 
-    if (userConfig && userConfig.extendFirestarter) userConfig.extendFirestarter(_self.config);
-
-    if (!_self.config.serverDomain) {
-        _self.config.serverDomain = _self.config.domain.create();
-    }
+    if (userConfig && userConfig.extendFirestarter) {userConfig.extendFirestarter(_self.config);}
 
     _self.config.gracefulExit = new GracefulExit(_self.config);
     _self.config.sendMessage = new SendMessage(_self.config);
@@ -105,44 +132,66 @@ module.exports = function Firestarter(userConfig) {
     _self.config.shutdown = new Shutdown(_self.config);
     _self.config.eventedStartup = new EventedStartup(_self.config)();
 
-    _self.config.HandlerRegistration = function HandlerRegistration(config){
+    _self.config.HandlerRegistration = function HandlerRegistration(config) {
 
         var _this;
 
         if (!(this instanceof HandlerRegistration)) {
-            return new HandlerRegistration(config)
+            return new HandlerRegistration(config);
         }
 
         _this = this;
 
         _this.config = config;
 
-        _this.config.serverDomain.on('error', function(err) {
-            reportError('Domain Error: ', err);
-            _this.config.shutdown(null, 'Shutdown due to Domain Error');
-        });
-
-        process.on('uncaughtException', function(err) {
+        process.once('uncaughtException', function (err) {
+            if (!(err instanceof Error)) {
+                err = new Error('Exeption did not get an error object: ' + err || 'undefined error');
+            }
             reportError('Uncaught Exception: ', err);
-            _this.config.shutdown(null, 'Shutdown due to uncaughtException');
+            _this.config.shutdown(err, 'Shutdown due to uncaughtException');
         });
-
-        process.on('SIGINT', function(err) {
-            reportError('Received shutdown message from SIGINT (ctrl+c)', err);
-            _this.config.shutdown(null, 'Shutdown due to SIGINT');
+/*
+        process.on('unhandledRejection', function (reason) {
+            if (!(reason instanceof Error)) {
+                reason = new Error('Rejection did not get an error object: ' + reason || 'undefined error');
+            }
+            reportError('Uncaught Exception: ', reason);
+            _this.config.shutdown(reason, 'Shutdown due to unhandledRejection');
         });
-
-        process.on('SIGHUP', function(err) {
+*/
+        process.once('SIGINT', function (err) {
+            if (!(err instanceof Error)) {
+                err = new Error('SIGINT shutdown (ctrl+c)');
+            }
+            reportError('Received shutdown message', err);
+            _this.config.shutdown(err, 'Shutdown due to SIGINT');
+        });
+/*
+        process.once('SIGTERM', function (err) {
+            if (!(err instanceof Error)) {
+                err = new Error('SIGTERM shutdown');
+            }
+            reportError('Received shutdown message', err);
+            _this.config.shutdown(err, 'Shutdown due to SIGTERM');
+        });
+*/
+        process.once('SIGHUP', function (err) {
+            if (!(err instanceof Error)) {
+                err = new Error('SIGHUP did not get an error object: ' + err || 'undefined error');
+            }
             reportError('Received shutdown message from SIGHUP', err);
-            _this.config.shutdown(null, 'Shutdown due to SIGHUP');
+            _this.config.shutdown(err, 'Shutdown due to SIGHUP');
         });
 
-        process.on('message', function(message) {
+        process.on('message', function (message) {
+            var err;
             if (message === 'ping') {
                 _this.config.sendMessage('pong');
             } else if (message === 'shutdown') {
-                reportError('Received shutdown message from process instantiator');
-                _this.config.shutdown(null, 'Shutdown due to shutdown message');
+                err = new Error('External shutdown requested: ' + message);
+                reportError('Received shutdown message from process instantiator', err);
+                _this.config.shutdown(err, 'Shutdown due to shutdown message');
             } else {
                 _this.config.logger.warn('Received UNHANDLED message from process instantiator (forwarding to client):', '', {
                     message: message
@@ -161,40 +210,40 @@ module.exports = function Firestarter(userConfig) {
 
         startup: _self.config.startup,
 
-        eventedStartup: function() {
+        eventedStartup: function () {
             return _self.config.eventedStartup;
         },
 
-        getApp: function() {
+        getApp: function () {
 
             return _self.config.app;
         },
 
-        getServer: function() {
+        getServer: function () {
 
             return _self.config.server;
         },
 
-        getSpdyServer: function() {
+        getSpdyServer: function () {
 
             return _self.config.spdyServer;
         },
 
-        getHttp: function() {
+        getHttp: function () {
 
             return _self.config.http;
         },
 
-        getServerDomain: function() {
+        getServerDomain: function () {
 
             return _self.config.serverDomain;
         },
 
-        getSocketIO: function() {
+        getSocketIO: function () {
             return _self.config.sioObj;
         },
 
-        getSecureSocketIO: function() {
+        getSecureSocketIO: function () {
             return _self.config.secureSioObj;
         }
     };
