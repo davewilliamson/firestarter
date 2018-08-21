@@ -12,9 +12,6 @@ var firestarter = require('../')({
         targetUser: 'nodejs',
         targetGroup: 'nodejs'
     },
-    memwatch: {
-        enabled: false
-    },
     spdyEnabled: true,
     spdyOptions: {
         keyFile: './test-key.pem',
@@ -31,7 +28,7 @@ var firestarter = require('../')({
 
 var firestarterAppControl = firestarter.eventedStartup();
 
-firestarterAppControl.once('startup', function(app, done) {
+firestarterAppControl.once('startup', function (app, done) {
 
     console.log('Startup');
 
@@ -45,20 +42,20 @@ firestarterAppControl.once('startup', function(app, done) {
 
 
     if (process.env.NODE_ENV === 'production') {
-    
+
         app.enable('view cache');
 
     }
 
     if (process.env.NODE_ENV === 'development') {
-    
+
         app.disable('view cache');
         // app.use(express.responseTime());
         // app.use(express.errorHandler());
 
     }
 
-    app.get('/', function(req, res, next){
+    app.get('/', function (req, res, next) {
         res.send('Looking Good');
     });
 
@@ -66,14 +63,14 @@ firestarterAppControl.once('startup', function(app, done) {
 });
 
 
-firestarterAppControl.once('shutdown', function(done) {
+firestarterAppControl.once('shutdown', function (done) {
 
     console.log('Shutdown requested!');
 
     done();
 });
 
-firestarterAppControl.once('ready', function() {
+firestarterAppControl.once('ready', function () {
 
     console.log('Ready - press ctrl+c to exit');
 

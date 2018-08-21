@@ -24,7 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 /* jshint unused:false */
-var noLog = function () {},
+var noLog = function () { },
 
     consoleLog = {
         debug: console.log,
@@ -46,10 +46,6 @@ var noLog = function () {},
                 switchOnReady: false,
                 targetUser: 'nodejs',
                 targetGroup: 'nodejs'
-            },
-            memwatch: {
-                enabled: false,
-                gcStats: false
             },
             shutdownTimeout: 60,
             startupTimeout: 60,
@@ -77,6 +73,8 @@ var noLog = function () {},
             gracefulExit: null,
             logging: true,
             testValue: true,
+            memoryMonitoring: true,
+            restartProcessWhenMemoryPercentage: 10,
             name: 'FireStarter'
         };
     };

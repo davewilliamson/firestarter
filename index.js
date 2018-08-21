@@ -30,6 +30,7 @@ var ConfigTool = require('./lib/configTool'),
     SendMessage = require('./lib/sendmessage'),
     Startup = require('./lib/startup'),
     Shutdown = require('./lib/shutdown'),
+    GarbageCollection = require('gc-stats'),
     util = require('util'),
     EventedStartup = require('./lib/eventedStartup');
 
@@ -72,23 +73,7 @@ module.exports = function Firestarter(userConfig) {
 
     _self.config.logger.info('Igniting the Firestarter (v' + pjson.version + ')!'.inverse.underline.yellow);
 
-    if (_self.config.memwatch && _self.config.memwatch.enabled) {
-        _self.config.logger.info('Memwatch Enabled (https://github.com/lloyd/node-memwatch)'.yellow);
-        _self.config.memwatch.fn = require('memwatch-next');
-        _self.config.memwatch.fn.on('leak', function (info) {
-            _self.config.logger.warn(('Possible Memory Leak: ' + info.reason).bold.red);
-        });
-        if (_self.config.memwatch.gcStats) {
-            _self.config.memwatch.fn.on('stats', function (stats) {
-                _self.config.logger.warn(('V8 Garbage Collection: ' + require('util').inspect(stats, {
-                    colors: true,
-                    showHidden: true
-                })));
-            });
-        }
-    }
-
-    if (userConfig && userConfig.extendFirestarter) {userConfig.extendFirestarter(_self.config);}
+    if (userConfig && userConfig.extendFirestarter) { userConfig.extendFirestarter(_self.config); }
 
     _self.config.gracefulExit = new GracefulExit(_self.config);
     _self.config.sendMessage = new SendMessage(_self.config);
@@ -107,6 +92,35 @@ module.exports = function Firestarter(userConfig) {
         _this = this;
 
         _this.config = config;
+
+        if (_this.config.memoryMonitoring) {
+
+            _this.gc = GarbageCollection();
+            _this.gc.on('stats', function gsStats(stats) {
+                // Exit if values missing
+                if (!stats || !stats.after) return;
+                var totalMem = stats.after.heapSizeLimit;
+                var usedMem = stats.after.totalHeapSize;
+                var percentageOfMemoryFree = (1 - (usedMem / totalMem));
+
+                // Exit if values too low
+                if (totalMem < 10 || usedMem < 10) return;
+
+                // _this.config.logger.info('Data from GC stats', '', percentageOfMemoryFree);
+
+
+                if (percentageOfMemoryFree < _this.config.restartProcessWhenMemoryPercentage) {
+                    var err = new Error('Memory Leak')
+                    _this.config.logger.warn('Restarting due to memory leak', '', stats);
+                    reportError('Memory Leak: ', err);
+                    _this.config.shutdown(err, 'Shutdown due to Memory Leak');
+                }
+            });
+
+            _this.config.restartProcessWhenMemoryPercentage = _this.config.restartProcessWhenMemoryPercentage / 100;
+            _self.startingMemory = process.memoryUsage();
+            _this.config.logger.warn('Memory Monitoring & Restarting enabled', '', _self.startingMemory);
+        }
 
         process.once('uncaughtException', function (err) {
             if (!(err instanceof Error)) {
