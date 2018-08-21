@@ -24,8 +24,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-// require('long-stack-traces');
-
 var ConfigTool = require('./lib/configTool'),
     pjson = require('./package.json'),
     GracefulExit = require('./lib/gracefulexit'),
@@ -36,6 +34,7 @@ var ConfigTool = require('./lib/configTool'),
     EventedStartup = require('./lib/eventedStartup');
 
 require('colors');
+
 
 var reportError = function reportError(message, err, data) {
 
@@ -58,7 +57,6 @@ var reportError = function reportError(message, err, data) {
         console.error('=================================================================================================================='.red);
     });
 };
-
 
 module.exports = function Firestarter(userConfig) {
 
@@ -117,7 +115,7 @@ module.exports = function Firestarter(userConfig) {
             reportError('Uncaught Exception: ', err);
             _this.config.shutdown(err, 'Shutdown due to uncaughtException');
         });
-/*
+
         process.on('unhandledRejection', function (reason) {
             if (!(reason instanceof Error)) {
                 reason = new Error('Rejection did not get an error object: ' + reason || 'undefined error');
@@ -125,7 +123,7 @@ module.exports = function Firestarter(userConfig) {
             reportError('Uncaught Exception: ', reason);
             _this.config.shutdown(reason, 'Shutdown due to unhandledRejection');
         });
-*/
+
         process.once('SIGINT', function (err) {
             if (!(err instanceof Error)) {
                 err = new Error('SIGINT shutdown (ctrl+c)');
@@ -133,7 +131,7 @@ module.exports = function Firestarter(userConfig) {
             reportError('Received shutdown message', err);
             _this.config.shutdown(err, 'Shutdown due to SIGINT');
         });
-/*
+
         process.once('SIGTERM', function (err) {
             if (!(err instanceof Error)) {
                 err = new Error('SIGTERM shutdown');
@@ -141,7 +139,7 @@ module.exports = function Firestarter(userConfig) {
             reportError('Received shutdown message', err);
             _this.config.shutdown(err, 'Shutdown due to SIGTERM');
         });
-*/
+
         process.once('SIGHUP', function (err) {
             if (!(err instanceof Error)) {
                 err = new Error('SIGHUP did not get an error object: ' + err || 'undefined error');
