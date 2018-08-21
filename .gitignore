@@ -7,6 +7,8 @@ lib-cov
 *.pid
 *.gz
 
+.vscode
+.idea
 .project
 *.sublime-*
 
